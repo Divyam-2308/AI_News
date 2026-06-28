@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🤖 AI Daily Digest — {{ run_date }}</title>
+  <style>
+    body        { margin:0; padding:0; background:#0f1117; font-family:'Segoe UI',Arial,sans-serif; color:#e2e8f0; }
+    .wrapper    { max-width:680px; margin:0 auto; padding:24px 16px; }
+
+    /* Header */
+    .header     { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); border-radius:16px; padding:32px 28px; text-align:center; margin-bottom:24px; }
+    .header h1  { margin:0 0 4px; font-size:28px; color:#fff; letter-spacing:-0.5px; }
+    .header p   { margin:0; color:rgba(255,255,255,0.8); font-size:14px; }
+
+    /* Stats bar */
+    .stats      { display:flex; gap:12px; margin-bottom:24px; }
+    .stat-card  { flex:1; background:#1e2130; border-radius:12px; padding:16px; text-align:center; border:1px solid #2d3748; }
+    .stat-num   { font-size:28px; font-weight:700; color:#667eea; }
+    .stat-label { font-size:12px; color:#718096; margin-top:2px; }
+
+    /* Section titles */
+    .section-title { font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#667eea; margin:28px 0 12px; }
+
+    /* Trend box */
+    .trend-box  { background:#1a1f2e; border-left:4px solid #667eea; border-radius:0 12px 12px 0; padding:16px 20px; margin-bottom:24px; }
+    .trend-box p { margin:0; font-size:15px; line-height:1.6; color:#cbd5e0; }
+
+    /* Article card */
+    .article-card { background:#1e2130; border-radius:12px; padding:16px 18px; margin-bottom:12px; border:1px solid #2d3748; text-decoration:none; display:block; }
+    .article-card:hover { border-color:#667eea; }
+    .article-title { font-size:15px; font-weight:600; color:#e2e8f0; margin:0 0 6px; line-height:1.4; }
+    .article-meta  { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+    .badge         { font-size:11px; font-weight:600; padding:2px 8px; border-radius:20px; background:#667eea22; color:#667eea; }
+    .source-label  { font-size:11px; color:#718096; }
+    .article-summary { font-size:13px; color:#a0aec0; line-height:1.5; margin:0; }
+
+    /* Research box */
+    .research-box { background:#1a2535; border:1px solid #2c5282; border-radius:12px; padding:16px 20px; margin-bottom:24px; }
+    .research-box p { margin:0; font-size:14px; color:#90cdf4; line-height:1.6; }
+
+    /* Footer */
+    .footer     { text-align:center; padding:20px 0 8px; border-top:1px solid #2d3748; margin-top:28px; }
+    .footer p   { font-size:12px; color:#4a5568; margin:4px 0; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>🤖 AI Daily Digest</h1>
+    <p>{{ run_date }} &nbsp;·&nbsp; Your daily AI intelligence briefing</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-num">{{ total_new }}</div>
+      <div class="stat-label">New Articles</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ top_stories | length }}</div>
+      <div class="stat-label">Top Stories</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ categories | length }}</div>
+      <div class="stat-label">Categories</div>
+    </div>
+  </div>
+
+  <!-- Today's Trend -->
+  <div class="section-title">🔥 Today's Top Trend</div>
+  <div class="trend-box">
+    <p>{{ insights }}</p>
+  </div>
+
+  <!-- Top Stories -->
+  <div class="section-title">📰 Must-Read Stories</div>
+  {% for article in top_stories %}
+  <a class="article-card" href="{{ article.url }}" target="_blank">
+    <div class="article-title">{{ article.title }}</div>
+    <div class="article-meta">
+      <span class="badge">{{ article.category }}</span>
+      <span class="source-label">{{ article.source }}</span>
+    </div>
+    <p class="article-summary">{{ article.summary }}</p>
+  </a>
+  {% endfor %}
+
+  <!-- Research Spotlight -->
+  {% if research_highlight and research_highlight != "No major research papers today." %}
+  <div class="section-title">🔬 Research Spotlight</div>
+  <div class="research-box">
+    <p>{{ research_highlight }}</p>
+  </div>
+  {% endif %}
+
+  <!-- All Articles by Category -->
+  {% for category, articles in categories.items() %}
+  <div class="section-title">{{ category }}</div>
+  {% for article in articles[:5] %}
+  <a class="article-card" href="{{ article.url }}" target="_blank">
+    <div class="article-title">{{ article.title }}</div>
+    <div class="article-meta">
+      <span class="source-label">{{ article.source }}</span>
+    </div>
+    <p class="article-summary">{{ article.summary }}</p>
+  </a>
+  {% endfor %}
+  {% endfor %}
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>🤖 AI News Multi-Agent &nbsp;·&nbsp; Powered by Gemini + LangGraph</p>
+    <p>You received this because you set up this digest for yourself.</p>
+  </div>
+
+</div>
+</body>
+</html>

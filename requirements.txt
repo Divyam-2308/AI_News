@@ -1,0 +1,24 @@
+# LangGraph ecosystem
+langgraph
+langchain
+langchain-google-genai
+langgraph-checkpoint-postgres
+
+# Database
+psycopg[binary]
+psycopg-pool
+pgvector
+
+# News fetching
+feedparser
+httpx
+praw
+
+# Scheduling & templating
+apscheduler
+pytz
+jinja2
+
+# Utilities
+python-dotenv
+requests
