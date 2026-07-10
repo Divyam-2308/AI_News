@@ -11,9 +11,16 @@ For automated daily runs at 8:00 AM IST, use:
     python scheduler.py
 """
 
+import sys
+import io
 import logging
+
+# Fix Windows console Unicode encoding (supports emojis)
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+import atexit
 from datetime import datetime
-from graph.workflow import build_graph
+from graph.workflow import build_graph, _get_pool
 
 # Configure logging
 logging.basicConfig(
@@ -22,6 +29,18 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 logger = logging.getLogger(__name__)
+
+
+def _cleanup():
+    """Close the DB connection pool gracefully on exit."""
+    try:
+        pool = _get_pool()
+        if pool:
+            pool.close()
+    except Exception:
+        pass
+
+atexit.register(_cleanup)
 
 
 def run_pipeline() -> dict:

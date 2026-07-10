@@ -1,0 +1,214 @@
+ ⚠️  Errors (67):
+      - Dedup [https://news.google.com/rss/articles/CBMiwwFBVV95cUxPOFh0amNEM0JkTVFGb1RMQmtIbWFTRkdzbUw3LU1rSHhfTDRzTXp3U21LSEktU0NVS09WUnhFbjVNOVo0WmpnWVVUWVhCNl9DZ2dkU2hKcnA5cXV0ZTQ5LWdlcTBENVdmczlIQUptOHVfSW5WelhzUjZCZFB0Ulc4MHUtOTNObzNvTS00eVBnYlAtZWV3enJZbm9HOExRMXBTSG51UlNNMkZQbDNienRHRzZ0SkNIRk9Sd0ZnOGFXeWZJbm_SAcsBQVVfeXFMUExzazJKSDZ3enU4OTJvWEdaNFR6dlFEMzRZaFhDbXFvb1FuUkpidEh0cmZFclNaMGg1NzJmVTVKMHlzeEtOdVZSeWJFSlFRbWVKVUdhR2RIVG9aUHNhdTJXdkhfeE0yM05HcVJkdkRpNHZnSlgtaHpPZTFHTDBVY3haT1pfYlJwcW1iZG83bTN3MHZ0X3QzNHVjV3gyUzF5aFN3a0RCam1NX3JOWW5PNTBSbTFiMWZGQzZnaEdJVU1DV1p5TTdJc2d3R00?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMixAFBVV95cUxPRkkxc2pFNEVyTDgwamRvUTlLSlByS0hFUE40eWdYVnhTbWM3bjhsYndYd05vYTR1ZW5EYUhqOVdzUTVMdE1Cc1BKZ3JjTkx2aFdsWWUtVVhub1cybmFJaU5iY1d3ZzhHZTJ1WVE5clFoSFdDNHhmZGUtSERWOWxqZnJNMWMtLXpudEZBSGlxaWVRNXpQMVg5STZKWW8yR0Q0OXYtNmJKRzdjV0JJTElOdXNYQUdkZTI3cEoxSHlOaGdrRThJ?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMisgFBVV95cUxOeW5vSkVET01COWJCRm96TWJTYkVWejAyQkZlSEpxTnpBOFlNS3hMYUNLbWFDcktTUkVkeTdIRkJkYTVxNU5QenpubmUwVUpIY09veWl3RFFqQldqb2NBcFF6YzVFY0RHM2stV09vcEJuVjF5SUxuMHM0LUM0WXRteFczd0lkRXFBLXFZZUFmUXBTTzJ0Z2RnTjlia0NBX1pvMTZaTFhuZXhhQ0JfWEo5OEN3?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMioAFBVV95cUxOa1dxU1JNM2gybUFmVWR1STVhX2VWVGVGWGhxMEdXX0RBR243dGIzaDBqR1NCS2VSX2Z6ZVFXa181QUZSeHB0SDNhM25wYzNzYk1iY1NObWs3bE5iNlZKdC1jMmFhaklWNHpLQlN6UU5UT01HalhfY0hRRWFzbVk1ZDVSR1V1X1VuMTBsMFlMb0c0eTdVcnU0bDQ1aFE3NTFw0gGmAUFVX3lxTE1nWm5QWUJiRDFLYkZVcEdjUjZJcHlyRXItanp5YUhRSkRIMjVIRFd4YW5uYmlkWjNaLW4yY3FjanBOV2ZlUDY0TjFBZkVaeXh2NzFSdzVoYUZGQlpGaGUzMWVYNHktMkVrRVJWakdxbExxUjRyMVd2VDh0bF9SeG11VTNHRXIwdWFzdmlaNGZ4TzB1RXYteTI0aWFVcmJRQkRMNFpSNEE?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMijwFBVV95cUxQczdaTVpjWHhOblAyTDdtOTlsdnZpcmt1aG1Vc0hSOW56VkFUdzR5ZFFWaldJenVsMHhUSWE4djRmUlNpNkNId0pfbzQxNDlkX3V4dGFpTzRMSEdMLU1HVmt6a2ZOTko3c3diTHdRSXJxRm9YYWhZeUsyQzE3Q29NSHZ3X2J1RXl0TW14MXNjRQ?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMi6AFBVV95cUxNckE1TjZhbm83N1FnWFFzbzFPLVpLR3BRbFFuMUUxN0VwY3E3SUNGMXdRZzFRZXRSMll2djFqLTNQbG9xNHJOcFlKWXdKVkVndldfR0dEU2E3R2tIa3c1MTRUOWVJeFZrdl94aTNVWEJNOXFnVS1FQVpwdEgyU2gtVlE0bFctRXdxb18zRUZrQXVZcm1GcTR4aGE1bnRERlNjeEM1dTNnMGtCeGVqMk1Ec1plZS05cHFHSXM3SVpkbnN2ZENza2dWaElNaklDN0xlME1OR0dZMTlWZ2ZZUjN1OUJXY1JmUDl0?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMisAFBVV95cUxNaEZVMXJiUnR6enpmNFA3MnJkaTNDX0ZsQlJteWEzSkpUY3lZYlJzRTFPOU1LRGMySWpqQ2VlclNtMHloYkhEbnRzVjhzVHo4RWExNWdzNUxUbTFoZ0tORlJuRUx4TnZDbkFTLUd2Zmd6VDJnSnoxZUdJeHZ2NDJ1akVxTjNoNm82Z0NKMEdvR2ttZTNzOXlrTEpOT2N0OEpfUGExZkE2azlNMXZXeWt4Ug?oc=5]: relation "ai_articles" does not exist 
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMikwFBVV95cUxQVnhkTzN4aU1VNFVqZ1ZIRnpZUVJxMDFTOUM1X2pxekJFeEh4UmpqZlJvempjbHlSWGNRTzdrcnFqYk9KalpITHZXZG80VDNwSDJEOW96Wi1XRjlrM1NDNmNPQ3QtWUhxclJSQlMtb2dMVU4wb2Fscl9xcE53NWE3YkdrNTVBdVQwNkhWeTYtSjJhazA?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMijgJBVV95cUxNenY2QlJhODJDNmFjNWMtR08wVE1BdU1CMGs4MnNpdm05X1Zzckk1THJvd2oxbnhERlZLWndsbHpOVW5DeUl4SzN2Ynh0YnZCZGxqTGRNV3FXd3pfc2U2TFZDeVVXT3U3N0M1WmgxTHlnUS11SE1BLXlwYTA1QktIYXlLdmhUdkpWMFk5UmR0TGVUVzFrYXcwUi1GZjh5N0otUHJfQ2lXcnJEUjlkeFpyWlNrMUE5OVVfMlc4VHJIR3AwQk1Dc2EzUXhBTWJtODdVbmV2YU1YS0RNR29ZLXBBR0NKYkJQMWJ1RG83Y25kbXZIOUZIMVhSYWFVUFEtcHdhRWJvN3lJRlVIOXU4UlE?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMi8AFBVV95cUxNNlo1UVhWT3BqMXQySjBCbmYzMnpyS2k5cVN3Q3JxR3BvNll5Y240bXdOZlpTNUEwcWRWU2JrdmZNaFQxRE13R3pLYWIzRXloT3JYSjF2Z05pOUF3QTM0bi1zclBBemlTdDlYY2hlckthUzZFdmdiTTMyQ1c4SVVuMEJKZTFhbG1WSkkyZ2Y0cU9NcnE2LS1JU18xWDVIZEtOUjRvZ2JGN2o3LWp4Q2Q4QjJkbHpPSFZlQWdpWGRQd1E3X3Izc0JHZDA2a2o4bzJVTjFNYzlKQ3RYRUJ6NlctM25uSHZJTFVNUmg1blRoak3SAesBQVVfeXFMT3JDeHJOTk1IYnBpQk5jSGZQaEJ4ckdrM0E3N0RPTTFUMWVwemJhZlRhN01CRW4xWUNIU2tqMFJETUVlcFhaT01rbVRzTGwxdTRiSHhadTZ2WGxNZ0llck9ueC1hSjBQdF9PcHZWcXhmOWxxdE5WVXpGNWt6V0ZoR3pvNWJFZlJPQlhwNkU4S2FRbDhCZHBFZFU1Z3JQczNiaTVNQklRQ0xhWVBFaEhQSXIyQTVhMF9qbTJPT2xlalBIYXp2eGF1U1QzQ051MmhMS0ktUFMwdGE4WHBnTlpfTHg2TWdtQlF5M041aw?oc=5]: relation "ai_articles" does not exist     
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMiX0FVX3lxTE54WHhQZjlNWjRNRVB4eTJKQ3dRZVpQRklSenJHU0lWcE5CSHN2R3FPS0RrWGpXNDNzbG9IUk40VXhTLW5jNzZBMm1hbVhFbElzalFVY1dBXzZhM2tyWmt3?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMi2gFBVV95cUxPZGNFMFREX201QWJjMGJXeXEwbHFaQ1JOYkNFTlJOUHJSQXhTcWpaRHFlNG5hUm4tM29rZ3ljU1RBdEdlRDNfV3pIOW0xZjE0SFNaQS0xd0pOcFV2VkFueE4tWVdXNzdxcHpMQWJTeWJiSW13WUVNS0t5Ym00SWhGdlVvTHctTFNESmlEb01XWnVRVkhudEJmMkNIQ3JNYTVoOEtJZFFyYkVQeUFIYVUwTDJWcl9xMEI2QjQ2RkRGMGVMellSOGltVlh6QW5LSHVUeVA5RV9RUW9SUdIB4gFBVV95cUxPcFZ6TXZkUnBwN2F6dng5NmtLejVLcFpMcUEyRnJIWjFSYjM1NFVYVkVwQjFyZDhZaFM2NFdmSTlYbG51eGtlRDllS1BNN1JDelhvSndfcmRETDY0eFozMTBVN3FaajB3Qi01VjdOM1dIYmZuWmlxcVFPaHJGd0dSb3hiX2kxUkR1NTVSc2F5cEVMamhVVkhLUGNnLWlWd0tqOVc0WWhlTUJxRkVkMXlHN3BIOGp4YVVDbHYzaWRzSm1jNVVoaFhRcG05V0hJdjY2NWREQU9ZcXYtUVdzaHMxWkZn?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMiuwJBVV95cUxNbGJacjE3Q2k3YUdRdTNNR2xRNzRtRGJ3aVJCR2l0T0Uxd0xYWlJ3LXlOV3FqR1liLUp0by04TF9OemtQaGlPUUdpeGo5R1FrTFVILUVqMDFqR1hfNHY2dS1va3FXZzh3WGVjTFhmV3lWUENVVDNLRlVSLVMzYWFmQXNHeS1HUF9EeWdBYWtjQTN1VUZrVHY0SkduSjl6U250MlJ3dVQxZEdYdWxYVGR0ZHlMMGRSbzlpeDFYZTBJQzcwLVZDeXZ6OU9fdXlzaE9BQmFGMHlUUjdQRGRsWDlLdk01M0pCdFcyQWpXNFpQRG54VU5fTmgteGhVMFp5OG9HanBJUXk1YmJ3OTFGT2RrUERUQjY3UGQtaWh2cTFJWThSbHM4SWh2RVROYWhDYVMyN0xCejdTRHoyaW8?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMidkFVX3lxTE15ZzVUSHlKODB5NHBFZHJUYUFlS2MxcDNaTHhnRXVyajJmQWpiSGQtcXkyZC0xMWJUd3JYZjVaMndlQTN2WUhlYnBZVTRBakMzNUdBX2J2bHJTQXJXdGRNTFl4eEt4MUlPUTRBdVZKdjhhRl8tRXc?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://news.google.com/rss/articles/CBMiqgFBVV95cUxPcXo4NjJSMkZ4THZoS0FOWkdJcGxidVlxUU9EblpfMnVzcng5d3c4NnVIUU9VaDhVZ0RBTkxTUE9oaVJqcVE5OFJsV3dranpEVkJ0TklidGhfUHQwcUZrQjhCa1BGVU5SRHlUbGQ1VnctUE9uY3RIbzJHZkZPeTBvdUhzX3ZuTVR2eGFrV1ZELTdqYnhtbEo3d21QcTFkTW1YRWc0ZUNvVXhFUQ?oc=5]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/openai-says-gpt-5-6-is-the-preferred-model-for-microsoft-copilot-amid-breakup-chatter/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/fidji-simo-steps-down-from-openais-no-2-role/]: relation "ai_articles" does not exist  
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/openai-launches-its-new-family-of-models-with-gpt-5-6/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/an-ai-agent-startup-just-let-its-agent-run-its-100-million-fundraise/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/openai-is-shutting-down-atlas-but-its-ai-browser-ambitions-are-still-growing/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/elon-musk-praises-mythos-fable-promises-not-to-cut-off-anthropic/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/can-ai-answer-the-3-trillion-question/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/meta-enters-the-crowded-ai-coding-battle-with-muse-spark-1-1/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/new-york-times-says-openai-hid-evidence-in-chatgpt-copyright-trial/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/google-will-now-disclose-which-ads-are-made-with-ai/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/paris-based-ai-voice-startup-gradium-raises-100m-seed-backed-by-nvidia/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/how-did-the-government-decide-openais-frontier-model-was-safe-to-release/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/how-to-stop-metas-ai-image-generator-from-using-your-instagram-photos/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/metas-new-ai-chips-will-begin-production-in-september/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://techcrunch.com/2026/07/09/nvidia-is-a-victim-of-the-compute-marketplace-it-created/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://venturebeat.com/technology/google-just-redesigned-the-search-box-for-the-first-time-in-25-years-heres-why-it-matters-more-than-you-think]: relation "ai_articles" does not exist     
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://venturebeat.com/infrastructure/railway-secures-usd100-million-to-challenge-aws-with-ai-native-cloud]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://venturebeat.com/infrastructure/claude-code-costs-up-to-usd200-a-month-goose-does-the-same-thing-for-free]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://venturebeat.com/technology/listen-labs-raises-usd69m-after-viral-billboard-hiring-stunt-to-scale-ai]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://venturebeat.com/technology/salesforce-rolls-out-new-slackbot-ai-agent-as-it-battles-microsoft-and]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://venturebeat.com/technology/anthropic-launches-cowork-a-claude-desktop-agent-that-works-in-your-files-no]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://venturebeat.com/technology/nous-researchs-nouscoder-14b-is-an-open-source-coding-model-landing-right-in]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.technologyreview.com/2026/07/10/1140289/sperm-donors-need-limits-says-a-european-fertility-group/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.technologyreview.com/2026/07/09/1140293/anthropic-found-a-hidden-space-where-claude-puzzles-over-concepts/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.technologyreview.com/2026/07/09/1140283/the-download-nuclear-power-milestone-nvidia-china-ai-chips/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.technologyreview.com/2026/07/09/1140235/nuclear-reactor-milestone-criticality/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.technologyreview.com/2026/07/08/1140223/emtech-ai-2026-the-rise-of-the-ai-platform/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.technologyreview.com/2026/07/08/1140216/the-download-worms-manure-pollution-geoengineering-reality-check/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.technologyreview.com/2026/07/07/1140197/the-download-your-openai-stake-treasury-ai-warning/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.technologyreview.com/2026/07/07/1139413/the-foundational-elements-of-ai-architecture-that-it-leaders-need-to-scale/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.technologyreview.com/2026/07/07/1140142/why-worms-and-microbes-are-catching-on-as-a-manure-pollution-solution/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.technologyreview.com/2026/07/06/1140176/your-familys-300-stake-in-openai/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [http://arxiv.org/abs/2607.08763v1]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [http://arxiv.org/abs/2607.08758v1]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [http://arxiv.org/abs/2607.08754v1]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [http://arxiv.org/abs/2607.08748v1]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [http://arxiv.org/abs/2607.08746v1]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [http://arxiv.org/abs/2607.08757v1]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [http://arxiv.org/abs/2607.08756v1]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [http://arxiv.org/abs/2607.08754v1]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [http://arxiv.org/abs/2607.08746v1]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [http://arxiv.org/abs/2607.08741v1]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://openai.com/index/gpt-5-6/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://kotaku.com/a-train-sim-created-by-just-one-person-is-being-called-the-best-ever-made-2000699429]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.macrumors.com/2026/07/06/apple-silicon-exec-explains-mac-mini-ai-demand/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://nevo-project.epfl.ch/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.ello.com/blog/teaching-a-child-in-1000-ms]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://nahla.dev/blog/waitfree_queue/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://paulbourke.net/fractals/tripledragon/]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://apnews.com/article/john-deere-right-to-repair-agriculture-equipment-cb7514ffedb95c130a976af661f2bc02]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.pangram.com/blog/ai-in-your-feed]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+      - Dedup [https://www.worksinprogress.news/p/ai-is-bottlenecked-by-the-grid]: relation "ai_articles" does not exist
+LINE 1: SELECT 1 FROM ai_articles WHERE url = $1 LIMIT 1
+                      ^
+============================================================        
+
+2026-07-10 16:50:36 [WARNING] couldn't stop thread 'pool-1-worker-0' within 5.0 seconds
+2026-07-10 16:50:36 [WARNING] hint: you can try to call 'close()' explicitly or to use the pool as context manager
+2026-07-10 16:50:41 [WARNING] couldn't stop thread 'pool-1-worker-1' within 5.0 seconds
+2026-07-10 16:50:41 [WARNING] hint: you can try to call 'close()' explicitly or to use the pool as context manager
+2026-07-10 16:50:46 [WARNING] couldn't stop thread 'pool-1-worker-2' within 5.0 seconds
+2026-07-10 16:50:46 [WARNING] hint: you can try to call 'close()' explicitly or to use the pool as context manager
+2026-07-10 16:50:51 [WARNING] couldn't stop thread 'pool-1-scheduler' within 5.0 seconds
+2026-07-10 16:50:51 [WARNING] hint: you can try to call 'close()' explicitly or to use the pool as context manager
+
+(.venv) D:\Projects\Multi_Web_Agent>

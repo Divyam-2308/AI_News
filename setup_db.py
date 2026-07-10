@@ -10,12 +10,9 @@ Usage:
 
 import os
 import psycopg
-from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
-
-MIGRATION_FILE = Path(__file__).parent / "db" / "migrations" / "001_init.sql"
 
 
 def setup_database() -> None:
@@ -24,34 +21,64 @@ def setup_database() -> None:
     if not db_url:
         raise RuntimeError("DATABASE_URL is not set in .env")
 
-    print("🗄️  Connecting to PostgreSQL...")
+    print("Connecting to PostgreSQL...")
 
     with psycopg.connect(db_url) as conn:
-        print("✅ Connected!")
-
-        # Read and execute the migration SQL
-        sql = MIGRATION_FILE.read_text()
-        print("📦 Running migration: 001_init.sql...")
+        print("Connected!")
+        conn.autocommit = True
 
         with conn.cursor() as cur:
-            # Execute each statement separately
-            for statement in sql.split(";"):
-                stmt = statement.strip()
-                if stmt and not stmt.startswith("--"):
-                    try:
-                        cur.execute(stmt)
-                        print(f"   ✅ {stmt[:60].replace(chr(10),' ')}...")
-                    except Exception as e:
-                        print(f"   ⚠️  Skipped (may already exist): {e}")
 
-        conn.commit()
+            # 1. Create ai_articles table (embedding added in Phase 2)
+            print("Creating ai_articles table...")
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS ai_articles (
+                    id           SERIAL PRIMARY KEY,
+                    title        TEXT NOT NULL,
+                    url          TEXT UNIQUE NOT NULL,
+                    source       TEXT,
+                    category     TEXT,
+                    summary      TEXT,
+                    content      TEXT,
+                    published_at TIMESTAMP,
+                    fetched_at   TIMESTAMP DEFAULT NOW()
+                );
+            """)
+            print("  ai_articles table ready")
 
-    print("\n🎉 Database setup complete!")
-    print("   Tables created: ai_articles")
-    print("   Extensions:     pgvector")
-    print("   Indexes:        url, fetched_at, category, embedding")
+            # 3. Create indexes
+            print("Creating indexes...")
+            cur.execute("""
+                CREATE INDEX IF NOT EXISTS idx_ai_articles_url
+                ON ai_articles (url);
+            """)
+            cur.execute("""
+                CREATE INDEX IF NOT EXISTS idx_ai_articles_fetched_at
+                ON ai_articles (fetched_at DESC);
+            """)
+            cur.execute("""
+                CREATE INDEX IF NOT EXISTS idx_ai_articles_category
+                ON ai_articles (category);
+            """)
+            print("  Indexes ready")
+
+            # 4. Verify
+            cur.execute("""
+                SELECT column_name, data_type
+                FROM information_schema.columns
+                WHERE table_name = 'ai_articles'
+                ORDER BY ordinal_position;
+            """)
+            columns = cur.fetchall()
+
+    print("\nDatabase setup complete!")
+    print("Table: ai_articles")
+    print("Columns:")
+    for col in columns:
+        print(f"  - {col[0]:15s} {col[1]}")
     print("\nYou can now run: python main.py")
 
 
 if __name__ == "__main__":
     setup_database()
+
