@@ -12,7 +12,10 @@ pgvector
 # News fetching
 feedparser
 httpx
-praw
+
+# API server
+fastapi
+uvicorn[standard]
 
 # Scheduling & templating
 apscheduler

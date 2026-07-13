@@ -6,7 +6,7 @@ Uses pgvector for semantic deduplication via cosine similarity.
 """
 
 import psycopg
-from db.connection import get_connection_string
+from db.connection import get_connection_string, get_pool
 
 # Similarity threshold — articles above this score are considered duplicates
 SIMILARITY_THRESHOLD = 0.90
@@ -26,7 +26,8 @@ def is_duplicate(article: dict) -> bool:
     """
     url = article.get("url", "")
 
-    with psycopg.connect(get_connection_string()) as conn:
+    pool = get_pool()
+    with pool.connection() as conn:
         with conn.cursor() as cur:
             # Fast check: exact URL match
             cur.execute(
@@ -36,8 +37,7 @@ def is_duplicate(article: dict) -> bool:
             if cur.fetchone():
                 return True  # Exact URL duplicate
 
-            # Vector similarity check will be added in Phase 2
-            # when we integrate Gemini embeddings
+            # Semantic vector similarity (pgvector) — to be added in a future phase
             return False
 
 
@@ -49,7 +49,8 @@ def save_article_stub(article: dict) -> None:
     Args:
         article: Normalized article dict
     """
-    with psycopg.connect(get_connection_string()) as conn:
+    pool = get_pool()
+    with pool.connection() as conn:
         with conn.cursor() as cur:
             cur.execute("""
                 INSERT INTO ai_articles (title, url, source, content, published_at)
@@ -72,7 +73,8 @@ def save_full_article(article: dict) -> None:
     Args:
         article: Fully processed article dict (with summary, category)
     """
-    with psycopg.connect(get_connection_string()) as conn:
+    pool = get_pool()
+    with pool.connection() as conn:
         with conn.cursor() as cur:
             cur.execute("""
                 INSERT INTO ai_articles (title, url, source, content, category, summary, published_at)

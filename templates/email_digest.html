@@ -5,43 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🤖 AI Daily Digest — {{ run_date }}</title>
   <style>
-    body        { margin:0; padding:0; background:#0f1117; font-family:'Segoe UI',Arial,sans-serif; color:#e2e8f0; }
-    .wrapper    { max-width:680px; margin:0 auto; padding:24px 16px; }
+    /* ── Reset & Base ───────────────────────────────────────────── */
+    * { box-sizing: border-box; }
+    body        { margin:0; padding:0; background:#0d1117; font-family:'Segoe UI',Arial,sans-serif; color:#e2e8f0; -webkit-font-smoothing:antialiased; }
+    a           { color:inherit; text-decoration:none; }
+    .wrapper    { max-width:680px; margin:0 auto; padding:24px 16px 40px; }
 
-    /* Header */
-    .header     { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); border-radius:16px; padding:32px 28px; text-align:center; margin-bottom:24px; }
-    .header h1  { margin:0 0 4px; font-size:28px; color:#fff; letter-spacing:-0.5px; }
+    /* ── Header ─────────────────────────────────────────────────── */
+    .header     { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); border-radius:20px; padding:36px 32px; text-align:center; margin-bottom:28px; }
+    .header h1  { margin:0 0 6px; font-size:30px; color:#fff; letter-spacing:-0.5px; }
     .header p   { margin:0; color:rgba(255,255,255,0.8); font-size:14px; }
 
-    /* Stats bar */
-    .stats      { display:flex; gap:12px; margin-bottom:24px; }
-    .stat-card  { flex:1; background:#1e2130; border-radius:12px; padding:16px; text-align:center; border:1px solid #2d3748; }
-    .stat-num   { font-size:28px; font-weight:700; color:#667eea; }
-    .stat-label { font-size:12px; color:#718096; margin-top:2px; }
+    /* ── Stats bar ──────────────────────────────────────────────── */
+    .stats      { display:flex; gap:10px; margin-bottom:28px; }
+    .stat-card  { flex:1; background:#161b22; border-radius:14px; padding:16px 12px; text-align:center; border:1px solid #21262d; }
+    .stat-num   { font-size:26px; font-weight:700; color:#667eea; }
+    .stat-label { font-size:11px; color:#8b949e; margin-top:3px; text-transform:uppercase; letter-spacing:0.5px; }
 
-    /* Section titles */
-    .section-title { font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#667eea; margin:28px 0 12px; }
+    /* ── Section titles ─────────────────────────────────────────── */
+    .section-title { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#667eea; margin:32px 0 14px; }
 
-    /* Trend box */
-    .trend-box  { background:#1a1f2e; border-left:4px solid #667eea; border-radius:0 12px 12px 0; padding:16px 20px; margin-bottom:24px; }
-    .trend-box p { margin:0; font-size:15px; line-height:1.6; color:#cbd5e0; }
+    /* ── TOP 5 HEADLINES ────────────────────────────────────────── */
+    .headlines-box  { background:#161b22; border-radius:16px; border:1px solid #21262d; overflow:hidden; margin-bottom:28px; }
+    .headline-item  { display:flex; align-items:flex-start; gap:14px; padding:16px 20px; border-bottom:1px solid #21262d; text-decoration:none; transition:background 0.15s; }
+    .headline-item:last-child { border-bottom:none; }
+    .headline-item:hover      { background:#1c2128; }
+    .headline-num   { font-size:22px; font-weight:800; color:#667eea; min-width:28px; line-height:1; padding-top:2px; opacity:0.6; }
+    .headline-body  { flex:1; min-width:0; }
+    .headline-title { font-size:15px; font-weight:600; color:#e6edf3; line-height:1.45; margin:0 0 6px; }
+    .headline-meta  { display:flex; gap:8px; align-items:center; }
+    .badge          { font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; letter-spacing:0.3px; }
+    .badge-llms     { background:#667eea22; color:#818cf8; }
+    .badge-robotics { background:#10b98122; color:#34d399; }
+    .badge-tools    { background:#f59e0b22; color:#fbbf24; }
+    .badge-research { background:#8b5cf622; color:#a78bfa; }
+    .badge-funding  { background:#10b98122; color:#6ee7b7; }
+    .badge-policy   { background:#ef444422; color:#f87171; }
+    .badge-hardware { background:#6b728022; color:#9ca3af; }
+    .badge-other    { background:#374151;   color:#9ca3af; }
+    .source-label   { font-size:11px; color:#6e7681; }
+    .headline-arrow { font-size:16px; color:#374151; align-self:center; flex-shrink:0; }
 
-    /* Article card */
-    .article-card { background:#1e2130; border-radius:12px; padding:16px 18px; margin-bottom:12px; border:1px solid #2d3748; text-decoration:none; display:block; }
-    .article-card:hover { border-color:#667eea; }
-    .article-title { font-size:15px; font-weight:600; color:#e2e8f0; margin:0 0 6px; line-height:1.4; }
-    .article-meta  { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
-    .badge         { font-size:11px; font-weight:600; padding:2px 8px; border-radius:20px; background:#667eea22; color:#667eea; }
-    .source-label  { font-size:11px; color:#718096; }
-    .article-summary { font-size:13px; color:#a0aec0; line-height:1.5; margin:0; }
+    /* ── Trend box ──────────────────────────────────────────────── */
+    .trend-box  { background:#161b22; border-left:4px solid #667eea; border-radius:0 14px 14px 0; padding:18px 22px; margin-bottom:28px; }
+    .trend-box p { margin:0; font-size:14px; line-height:1.7; color:#c9d1d9; }
 
-    /* Research box */
-    .research-box { background:#1a2535; border:1px solid #2c5282; border-radius:12px; padding:16px 20px; margin-bottom:24px; }
-    .research-box p { margin:0; font-size:14px; color:#90cdf4; line-height:1.6; }
+    /* ── Research box ───────────────────────────────────────────── */
+    .research-box { background:#0d1926; border:1px solid #1d3557; border-radius:14px; padding:18px 22px; margin-bottom:28px; }
+    .research-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#58a6ff; margin-bottom:8px; }
+    .research-box p { margin:0; font-size:14px; color:#79c0ff; line-height:1.65; }
 
-    /* Footer */
-    .footer     { text-align:center; padding:20px 0 8px; border-top:1px solid #2d3748; margin-top:28px; }
-    .footer p   { font-size:12px; color:#4a5568; margin:4px 0; }
+    /* ── Article cards (by category) ───────────────────────────── */
+    .article-card  { background:#161b22; border-radius:12px; padding:14px 18px; margin-bottom:10px; border:1px solid #21262d; display:block; text-decoration:none; }
+    .article-card:hover { border-color:#667eea55; }
+    .article-title { font-size:14px; font-weight:600; color:#e6edf3; margin:0 0 6px; line-height:1.4; }
+    .article-meta  { display:flex; gap:8px; align-items:center; margin-bottom:7px; }
+    .source-sm     { font-size:11px; color:#6e7681; }
+    .article-summary { font-size:12px; color:#8b949e; line-height:1.55; margin:0; }
+
+    /* ── Divider ────────────────────────────────────────────────── */
+    .divider { border:none; border-top:1px solid #21262d; margin:28px 0; }
+
+    /* ── Footer ─────────────────────────────────────────────────── */
+    .footer     { text-align:center; padding:20px 0 8px; }
+    .footer p   { font-size:11px; color:#484f58; margin:4px 0; }
+
+    /* ── Category badge helper ──────────────────────────────────── */
+    {% macro cat_class(cat) %}badge badge-{{ cat | lower | replace(' ','') }}{% endmacro %}
   </style>
 </head>
 <body>
@@ -61,12 +91,36 @@
     </div>
     <div class="stat-card">
       <div class="stat-num">{{ top_stories | length }}</div>
-      <div class="stat-label">Top Stories</div>
+      <div class="stat-label">Top Headlines</div>
     </div>
     <div class="stat-card">
       <div class="stat-num">{{ categories | length }}</div>
       <div class="stat-label">Categories</div>
     </div>
+  </div>
+
+  <!-- ━━━ TOP 5 HEADLINES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="section-title">🗞️ Today's Top 5 Headlines</div>
+  <div class="headlines-box">
+    {% for article in top_stories[:5] %}
+    <a class="headline-item" href="{{ article.url }}" target="_blank">
+      <div class="headline-num">{{ loop.index }}</div>
+      <div class="headline-body">
+        <div class="headline-title">{{ article.title }}</div>
+        <div class="headline-meta">
+          {% set cat = article.category | default('Other') | lower | replace(' ','') %}
+          <span class="badge badge-{{ cat }}">{{ article.category | default('Other') }}</span>
+          <span class="source-label">{{ article.source }}</span>
+        </div>
+        {% if article.summary %}
+        <p class="article-summary">{{ article.summary | truncate(160, True, '…') }}</p>
+        {% endif %}
+      </div>
+      <div class="headline-arrow">→</div>
+    </a>
+    {% else %}
+    <div style="padding:20px;text-align:center;color:#484f58;font-size:13px;">No top stories available today.</div>
+    {% endfor %}
   </div>
 
   <!-- Today's Trend -->
@@ -75,45 +129,40 @@
     <p>{{ insights }}</p>
   </div>
 
-  <!-- Top Stories -->
-  <div class="section-title">📰 Must-Read Stories</div>
-  {% for article in top_stories %}
-  <a class="article-card" href="{{ article.url }}" target="_blank">
-    <div class="article-title">{{ article.title }}</div>
-    <div class="article-meta">
-      <span class="badge">{{ article.category }}</span>
-      <span class="source-label">{{ article.source }}</span>
-    </div>
-    <p class="article-summary">{{ article.summary }}</p>
-  </a>
-  {% endfor %}
-
   <!-- Research Spotlight -->
   {% if research_highlight and research_highlight != "No major research papers today." %}
   <div class="section-title">🔬 Research Spotlight</div>
   <div class="research-box">
+    <div class="research-label">ArXiv · Latest Paper</div>
     <p>{{ research_highlight }}</p>
   </div>
   {% endif %}
 
+  <hr class="divider" />
+
   <!-- All Articles by Category -->
+  <div class="section-title">📚 All Stories by Category</div>
   {% for category, articles in categories.items() %}
-  <div class="section-title">{{ category }}</div>
-  {% for article in articles[:5] %}
-  <a class="article-card" href="{{ article.url }}" target="_blank">
-    <div class="article-title">{{ article.title }}</div>
-    <div class="article-meta">
-      <span class="source-label">{{ article.source }}</span>
+  <div style="margin-bottom:22px;">
+    <div style="font-size:12px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">
+      {{ category }}
     </div>
-    <p class="article-summary">{{ article.summary }}</p>
-  </a>
-  {% endfor %}
+    {% for article in articles[:5] %}
+    <a class="article-card" href="{{ article.url }}" target="_blank">
+      <div class="article-title">{{ article.title }}</div>
+      <div class="article-meta">
+        <span class="source-sm">{{ article.source }}</span>
+      </div>
+      <p class="article-summary">{{ article.summary | truncate(180, True, '…') }}</p>
+    </a>
+    {% endfor %}
+  </div>
   {% endfor %}
 
   <!-- Footer -->
   <div class="footer">
-    <p>🤖 AI News Multi-Agent &nbsp;·&nbsp; Powered by Gemini + LangGraph</p>
-    <p>You received this because you set up this digest for yourself.</p>
+    <p>🤖 AI News Multi-Agent &nbsp;·&nbsp; Powered by Gemini 2.5 Flash + LangGraph</p>
+    <p>You set this digest up for yourself — enjoy the knowledge!</p>
   </div>
 
 </div>

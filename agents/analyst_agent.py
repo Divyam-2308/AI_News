@@ -1,10 +1,11 @@
 """
 agents/analyst_agent.py
 ------------------------
-Analyst Agent — LangGraph node that uses Gemini 1.5 Flash to:
+Analyst Agent — LangGraph node that uses Gemini 2.5 Flash to:
     1. Pick the top 5 must-read stories of the day
     2. Write a 2-3 sentence overall trend summary
     3. Highlight the most important research paper (if any)
+    4. Extract a single key insight
 """
 
 from graph.state import GraphState
@@ -49,8 +50,8 @@ def analyst_node(state: GraphState) -> dict:
             "errors": state.get("errors", []),
         }
 
-    llm = get_llm()
-    errors: list[str] = state.get("errors", [])
+    llm = get_llm()  # Create once outside the try block
+    errors: list[str] = list(state.get("errors", []))
 
     # Format articles for the prompt
     articles_text = "\n".join([
@@ -63,23 +64,7 @@ def analyst_node(state: GraphState) -> dict:
         response = llm.invoke(prompt)
         raw_output = response.content.strip()
 
-        # Parse the structured response
-        top_story_indices = []
-        insights = ""
-        research_highlight = ""
-
-        for line in raw_output.split("\n"):
-            line = line.strip()
-            if line.startswith("TOP_STORIES:"):
-                pass  # next line has the data
-            elif line.startswith("TREND:"):
-                pass
-            elif line.startswith("RESEARCH_HIGHLIGHT:"):
-                pass
-            elif line.startswith("KEY_INSIGHT:"):
-                pass
-
-        # Simpler parse: split by known sections
+        # Parse structured sections from the LLM response
         sections = {}
         current_key = None
         for line in raw_output.split("\n"):

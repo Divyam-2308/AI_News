@@ -4,6 +4,12 @@ graph/workflow.py
 Assembles the LangGraph StateGraph by connecting all agent nodes
 with edges to define the execution order of the pipeline.
 Uses a persistent connection pool for PostgreSQL checkpointing.
+
+Optimized pipeline (v2):
+    START → scraper → dedup → summarize_categorize → analyst → reporter → delivery → END
+
+The combined summarize_categorize node runs ONE Gemini call per article
+(vs. 2 before) and processes up to 5 articles in parallel via ThreadPoolExecutor.
 """
 
 from langgraph.graph import StateGraph, START, END
@@ -13,8 +19,7 @@ from psycopg_pool import ConnectionPool
 from graph.state import GraphState
 from agents.scraper_agent import scraper_node
 from agents.dedup_agent import dedup_node
-from agents.summarizer_agent import summarizer_node
-from agents.categorizer_agent import categorizer_node
+from agents.summarize_categorize_agent import summarize_categorize_node
 from agents.analyst_agent import analyst_node
 from agents.reporter_agent import reporter_node
 from agents.delivery_agent import delivery_node
@@ -30,8 +35,8 @@ def _get_pool() -> ConnectionPool:
     if _pool is None:
         _pool = ConnectionPool(
             conninfo=get_connection_string(),
-            min_size=1,
-            max_size=5,
+            min_size=2,
+            max_size=10,
             open=True,
         )
     return _pool
@@ -39,11 +44,10 @@ def _get_pool() -> ConnectionPool:
 
 def build_graph():
     """
-    Builds and compiles the LangGraph pipeline with PostgreSQL checkpointing.
+    Builds and compiles the optimized LangGraph pipeline with PostgreSQL checkpointing.
 
     Flow:
-        START → scraper → dedup → summarizer → categorizer
-              → analyst → reporter → delivery → END
+        START → scraper → dedup → summarize_categorize → analyst → reporter → delivery → END
 
     Returns:
         A compiled LangGraph CompiledGraph ready for .invoke()
@@ -51,23 +55,21 @@ def build_graph():
     builder = StateGraph(GraphState)
 
     # ── Register nodes ────────────────────────────────────────────────
-    builder.add_node("scraper",     scraper_node)
-    builder.add_node("dedup",       dedup_node)
-    builder.add_node("summarizer",  summarizer_node)
-    builder.add_node("categorizer", categorizer_node)
-    builder.add_node("analyst",     analyst_node)
-    builder.add_node("reporter",    reporter_node)
-    builder.add_node("delivery",    delivery_node)
+    builder.add_node("scraper",              scraper_node)
+    builder.add_node("dedup",                dedup_node)
+    builder.add_node("summarize_categorize", summarize_categorize_node)
+    builder.add_node("analyst",              analyst_node)
+    builder.add_node("reporter",             reporter_node)
+    builder.add_node("delivery",             delivery_node)
 
     # ── Define edges (execution order) ───────────────────────────────
-    builder.add_edge(START,         "scraper")
-    builder.add_edge("scraper",     "dedup")
-    builder.add_edge("dedup",       "summarizer")
-    builder.add_edge("summarizer",  "categorizer")
-    builder.add_edge("categorizer", "analyst")
-    builder.add_edge("analyst",     "reporter")
-    builder.add_edge("reporter",    "delivery")
-    builder.add_edge("delivery",    END)
+    builder.add_edge(START,                   "scraper")
+    builder.add_edge("scraper",               "dedup")
+    builder.add_edge("dedup",                 "summarize_categorize")
+    builder.add_edge("summarize_categorize",  "analyst")
+    builder.add_edge("analyst",               "reporter")
+    builder.add_edge("reporter",              "delivery")
+    builder.add_edge("delivery",              END)
 
     # ── Attach PostgreSQL checkpointer (pool stays alive) ────────────
     pool = _get_pool()
