@@ -5,73 +5,299 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🤖 AI Daily Digest — {{ run_date }}</title>
   <style>
-    /* ── Reset & Base ───────────────────────────────────────────── */
-    * { box-sizing: border-box; }
-    body        { margin:0; padding:0; background:#0d1117; font-family:'Segoe UI',Arial,sans-serif; color:#e2e8f0; -webkit-font-smoothing:antialiased; }
-    a           { color:inherit; text-decoration:none; }
-    .wrapper    { max-width:680px; margin:0 auto; padding:24px 16px 40px; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-    /* ── Header ─────────────────────────────────────────────────── */
-    .header     { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); border-radius:20px; padding:36px 32px; text-align:center; margin-bottom:28px; }
-    .header h1  { margin:0 0 6px; font-size:30px; color:#fff; letter-spacing:-0.5px; }
-    .header p   { margin:0; color:rgba(255,255,255,0.8); font-size:14px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0b0f19;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #e2e8f0;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
 
-    /* ── Stats bar ──────────────────────────────────────────────── */
-    .stats      { display:flex; gap:10px; margin-bottom:28px; }
-    .stat-card  { flex:1; background:#161b22; border-radius:14px; padding:16px 12px; text-align:center; border:1px solid #21262d; }
-    .stat-num   { font-size:26px; font-weight:700; color:#667eea; }
-    .stat-label { font-size:11px; color:#8b949e; margin-top:3px; text-transform:uppercase; letter-spacing:0.5px; }
+    .wrapper {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
 
-    /* ── Section titles ─────────────────────────────────────────── */
-    .section-title { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#667eea; margin:32px 0 14px; }
+    /* ── Hero Header ─────────────────────────────────────────────── */
+    .header {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c026d3 100%);
+      border-radius: 20px;
+      padding: 38px 28px;
+      text-align: center;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.4);
+      position: relative;
+    }
+    .header-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    .header h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.8px;
+    }
+    .header p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 14px;
+      font-weight: 500;
+    }
 
-    /* ── TOP 5 HEADLINES ────────────────────────────────────────── */
-    .headlines-box  { background:#161b22; border-radius:16px; border:1px solid #21262d; overflow:hidden; margin-bottom:28px; }
-    .headline-item  { display:flex; align-items:flex-start; gap:14px; padding:16px 20px; border-bottom:1px solid #21262d; text-decoration:none; transition:background 0.15s; }
-    .headline-item:last-child { border-bottom:none; }
-    .headline-item:hover      { background:#1c2128; }
-    .headline-num   { font-size:22px; font-weight:800; color:#667eea; min-width:28px; line-height:1; padding-top:2px; opacity:0.6; }
-    .headline-body  { flex:1; min-width:0; }
-    .headline-title { font-size:15px; font-weight:600; color:#e6edf3; line-height:1.45; margin:0 0 6px; }
-    .headline-meta  { display:flex; gap:8px; align-items:center; }
-    .badge          { font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; letter-spacing:0.3px; }
-    .badge-llms     { background:#667eea22; color:#818cf8; }
-    .badge-robotics { background:#10b98122; color:#34d399; }
-    .badge-tools    { background:#f59e0b22; color:#fbbf24; }
-    .badge-research { background:#8b5cf622; color:#a78bfa; }
-    .badge-funding  { background:#10b98122; color:#6ee7b7; }
-    .badge-policy   { background:#ef444422; color:#f87171; }
-    .badge-hardware { background:#6b728022; color:#9ca3af; }
-    .badge-other    { background:#374151;   color:#9ca3af; }
-    .source-label   { font-size:11px; color:#6e7681; }
-    .headline-arrow { font-size:16px; color:#374151; align-self:center; flex-shrink:0; }
+    /* ── Quick Stats Grid ────────────────────────────────────────── */
+    .stats-grid {
+      display: table;
+      width: 100%;
+      margin-bottom: 28px;
+      border-spacing: 10px 0;
+    }
+    .stat-card {
+      display: table-cell;
+      width: 33.33%;
+      background: #111827;
+      border-radius: 14px;
+      padding: 16px 12px;
+      text-align: center;
+      border: 1px solid #1f2937;
+    }
+    .stat-num {
+      font-size: 26px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: #818cf8;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+      margin-top: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
 
-    /* ── Trend box ──────────────────────────────────────────────── */
-    .trend-box  { background:#161b22; border-left:4px solid #667eea; border-radius:0 14px 14px 0; padding:18px 22px; margin-bottom:28px; }
-    .trend-box p { margin:0; font-size:14px; line-height:1.7; color:#c9d1d9; }
+    /* ── Section Title Header ────────────────────────────────────── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 32px 0 14px;
+    }
+    .section-title {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #818cf8;
+    }
 
-    /* ── Research box ───────────────────────────────────────────── */
-    .research-box { background:#0d1926; border:1px solid #1d3557; border-radius:14px; padding:18px 22px; margin-bottom:28px; }
-    .research-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#58a6ff; margin-bottom:8px; }
-    .research-box p { margin:0; font-size:14px; color:#79c0ff; line-height:1.65; }
+    /* ── Top 5 Headlines Card Box ────────────────────────────────── */
+    .headlines-box {
+      background: #111827;
+      border-radius: 16px;
+      border: 1px solid #1f2937;
+      overflow: hidden;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .headline-item {
+      display: block;
+      padding: 18px 20px;
+      border-bottom: 1px solid #1e293b;
+      text-decoration: none;
+    }
+    .headline-item:last-child {
+      border-bottom: none;
+    }
+    .headline-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .headline-num-cell {
+      width: 38px;
+      vertical-align: top;
+    }
+    .headline-num-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+      line-height: 28px;
+    }
+    .headline-content-cell {
+      vertical-align: top;
+      padding-left: 10px;
+    }
+    .headline-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #f1f5f9;
+      line-height: 1.4;
+      margin: 0 0 6px;
+    }
+    .headline-meta {
+      margin-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 12px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      margin-right: 6px;
+    }
+    .badge-llms     { background: rgba(99, 102, 241, 0.18); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3); }
+    .badge-robotics { background: rgba(16, 185, 129, 0.18); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-tools    { background: rgba(245, 158, 11, 0.18); color: #fde047; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-research { background: rgba(139, 92, 246, 0.18); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.3); }
+    .badge-funding  { background: rgba(20, 184, 166, 0.18); color: #5eead4; border: 1px solid rgba(20, 184, 166, 0.3); }
+    .badge-policy   { background: rgba(244, 63, 94, 0.18);  color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.3); }
+    .badge-hardware { background: rgba(6, 182, 212, 0.18);  color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3); }
+    .badge-other    { background: rgba(100, 116, 139, 0.18); color: #cbd5e1; border: 1px solid rgba(100, 116, 139, 0.3); }
 
-    /* ── Article cards (by category) ───────────────────────────── */
-    .article-card  { background:#161b22; border-radius:12px; padding:14px 18px; margin-bottom:10px; border:1px solid #21262d; display:block; text-decoration:none; }
-    .article-card:hover { border-color:#667eea55; }
-    .article-title { font-size:14px; font-weight:600; color:#e6edf3; margin:0 0 6px; line-height:1.4; }
-    .article-meta  { display:flex; gap:8px; align-items:center; margin-bottom:7px; }
-    .source-sm     { font-size:11px; color:#6e7681; }
-    .article-summary { font-size:12px; color:#8b949e; line-height:1.55; margin:0; }
+    .source-tag {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 500;
+    }
+    .headline-summary {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.55;
+      margin: 0;
+    }
 
-    /* ── Divider ────────────────────────────────────────────────── */
-    .divider { border:none; border-top:1px solid #21262d; margin:28px 0; }
+    /* ── Trend Insight Box ───────────────────────────────────────── */
+    .trend-box {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.12) 0%, rgba(124, 58, 237, 0.12) 100%);
+      border-left: 4px solid #6366f1;
+      border-radius: 0 14px 14px 0;
+      padding: 20px 22px;
+      margin-bottom: 28px;
+      border-top: 1px solid rgba(99, 102, 241, 0.2);
+      border-right: 1px solid rgba(99, 102, 241, 0.2);
+      border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+    }
+    .trend-box p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #cbd5e1;
+      font-weight: 400;
+    }
 
-    /* ── Footer ─────────────────────────────────────────────────── */
-    .footer     { text-align:center; padding:20px 0 8px; }
-    .footer p   { font-size:11px; color:#484f58; margin:4px 0; }
+    /* ── Research Spotlight Box ─────────────────────────────────── */
+    .research-box {
+      background: linear-gradient(135deg, #030712 0%, #0f172a 100%);
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin-bottom: 28px;
+    }
+    .research-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+    .research-box p {
+      margin: 0;
+      font-size: 14px;
+      color: #7dd3fc;
+      line-height: 1.65;
+    }
 
-    /* ── Category badge helper ──────────────────────────────────── */
-    {% macro cat_class(cat) %}badge badge-{{ cat | lower | replace(' ','') }}{% endmacro %}
+    /* ── Article Category Grid & Cards ───────────────────────────── */
+    .category-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 24px 0 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #1f2937;
+    }
+    .article-card {
+      background: #111827;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      border: 1px solid #1f2937;
+      display: block;
+      text-decoration: none;
+    }
+    .article-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin: 0 0 6px;
+      line-height: 1.4;
+    }
+    .article-meta {
+      font-size: 11px;
+      color: #64748b;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .article-summary {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ── Divider ─────────────────────────────────────────────────── */
+    .divider {
+      border: none;
+      border-top: 1px solid #1e293b;
+      margin: 32px 0;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      padding: 24px 0 8px;
+      border-top: 1px solid #1e293b;
+    }
+    .footer p {
+      font-size: 12px;
+      color: #64748b;
+      margin: 4px 0;
+    }
+    .footer a {
+      color: #818cf8;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -79,15 +305,16 @@
 
   <!-- Header -->
   <div class="header">
+    <div class="header-badge">Daily AI Briefing</div>
     <h1>🤖 AI Daily Digest</h1>
-    <p>{{ run_date }} &nbsp;·&nbsp; Your daily AI intelligence briefing</p>
+    <p>{{ run_date }} &nbsp;·&nbsp; Curated Intelligence & Top Trends</p>
   </div>
 
-  <!-- Stats -->
-  <div class="stats">
+  <!-- Stats Grid -->
+  <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-num">{{ total_new }}</div>
-      <div class="stat-label">New Articles</div>
+      <div class="stat-label">New Stories</div>
     </div>
     <div class="stat-card">
       <div class="stat-num">{{ top_stories | length }}</div>
@@ -100,69 +327,88 @@
   </div>
 
   <!-- ━━━ TOP 5 HEADLINES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <div class="section-title">🗞️ Today's Top 5 Headlines</div>
+  <div class="section-header">
+    <span class="section-title">🗞️ Today's Top 5 Headlines</span>
+  </div>
+
   <div class="headlines-box">
     {% for article in top_stories[:5] %}
     <a class="headline-item" href="{{ article.url }}" target="_blank">
-      <div class="headline-num">{{ loop.index }}</div>
-      <div class="headline-body">
-        <div class="headline-title">{{ article.title }}</div>
-        <div class="headline-meta">
-          {% set cat = article.category | default('Other') | lower | replace(' ','') %}
-          <span class="badge badge-{{ cat }}">{{ article.category | default('Other') }}</span>
-          <span class="source-label">{{ article.source }}</span>
-        </div>
-        {% if article.summary %}
-        <p class="article-summary">{{ article.summary | truncate(160, True, '…') }}</p>
-        {% endif %}
-      </div>
-      <div class="headline-arrow">→</div>
+      <table class="headline-table">
+        <tr>
+          <td class="headline-num-cell">
+            <div class="headline-num-circle">{{ loop.index }}</div>
+          </td>
+          <td class="headline-content-cell">
+            <div class="headline-title">{{ article.title }}</div>
+            <div class="headline-meta">
+              {% set cat = article.category | default('Other') | lower | replace(' ','') %}
+              <span class="badge badge-{{ cat }}">{{ article.category | default('Other') }}</span>
+              <span class="source-tag">via {{ article.source }}</span>
+            </div>
+            {% if article.summary %}
+            <p class="headline-summary">{{ article.summary | truncate(160, True, '…') }}</p>
+            {% endif %}
+          </td>
+        </tr>
+      </table>
     </a>
     {% else %}
-    <div style="padding:20px;text-align:center;color:#484f58;font-size:13px;">No top stories available today.</div>
+    <div style="padding:20px;text-align:center;color:#64748b;font-size:13px;">No top stories available today.</div>
     {% endfor %}
   </div>
 
   <!-- Today's Trend -->
-  <div class="section-title">🔥 Today's Top Trend</div>
+  {% if insights %}
+  <div class="section-header">
+    <span class="section-title">🔥 Today's Top Trend</span>
+  </div>
   <div class="trend-box">
     <p>{{ insights }}</p>
   </div>
+  {% endif %}
 
   <!-- Research Spotlight -->
   {% if research_highlight and research_highlight != "No major research papers today." %}
-  <div class="section-title">🔬 Research Spotlight</div>
+  <div class="section-header">
+    <span class="section-title">🔬 Research Spotlight</span>
+  </div>
   <div class="research-box">
-    <div class="research-label">ArXiv · Latest Paper</div>
+    <span class="research-tag">ArXiv · Latest AI Paper</span>
     <p>{{ research_highlight }}</p>
   </div>
   {% endif %}
 
   <hr class="divider" />
 
-  <!-- All Articles by Category -->
-  <div class="section-title">📚 All Stories by Category</div>
+  <!-- All Stories by Category -->
+  <div class="section-header">
+    <span class="section-title">📚 Essential Stories by Category</span>
+  </div>
+
   {% for category, articles in categories.items() %}
-  <div style="margin-bottom:22px;">
-    <div style="font-size:12px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">
-      {{ category }}
+  {% if articles %}
+  <div>
+    <div class="category-title">
+      ● {{ category }}
     </div>
-    {% for article in articles[:5] %}
+    {% for article in articles %}
     <a class="article-card" href="{{ article.url }}" target="_blank">
       <div class="article-title">{{ article.title }}</div>
-      <div class="article-meta">
-        <span class="source-sm">{{ article.source }}</span>
-      </div>
+      <div class="article-meta">Source: {{ article.source }}</div>
+      {% if article.summary %}
       <p class="article-summary">{{ article.summary | truncate(180, True, '…') }}</p>
+      {% endif %}
     </a>
     {% endfor %}
   </div>
+  {% endif %}
   {% endfor %}
 
   <!-- Footer -->
   <div class="footer">
-    <p>🤖 AI News Multi-Agent &nbsp;·&nbsp; Powered by LangGraph + Extractive NLP</p>
-    <p>Daily AI Intelligence Digest &nbsp;·&nbsp; Reply to this email with feedback</p>
+    <p>🤖 AI News Multi-Agent &nbsp;·&nbsp; Automated Daily Intelligence</p>
+    <p>Delivered directly to your inbox &nbsp;·&nbsp; Zero fluff, maximum signal</p>
   </div>
 
 </div>
