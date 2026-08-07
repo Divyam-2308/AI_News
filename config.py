@@ -3,7 +3,9 @@ config.py
 ---------
 Central configuration loader for the AI News Multi-Agent system.
 Loads all settings from the .env file and exposes them as a typed object.
-Also provides the get_llm() factory for the Gemini LLM client.
+
+GEMINI_API_KEY is now OPTIONAL — the pipeline can run fully without it
+using the zero-LLM mode (sumy + keyword scoring).
 """
 
 import os
@@ -15,8 +17,8 @@ load_dotenv()
 
 @dataclass
 class Settings:
-    # LLM
-    GEMINI_API_KEY:       str
+    # LLM (optional — not required in zero-LLM mode)
+    GEMINI_API_KEY:       str | None
 
     # Database
     DATABASE_URL:         str
@@ -24,6 +26,7 @@ class Settings:
     # Email
     GMAIL_USER:           str
     GMAIL_APP_PASSWORD:   str
+    RECIPIENT_EMAILS:     list[str]   # comma-separated list of digest recipients
 
     # Discord
     DISCORD_WEBHOOK_URL:  str
@@ -34,11 +37,11 @@ class Settings:
 
 
 def _load_settings() -> Settings:
-    """Loads and validates all required environment variables."""
+    """Loads and validates environment variables. GEMINI_API_KEY is optional."""
     missing = []
 
     required = [
-        "GEMINI_API_KEY", "DATABASE_URL",
+        "DATABASE_URL",
         "GMAIL_USER", "GMAIL_APP_PASSWORD",
         "DISCORD_WEBHOOK_URL",
     ]
@@ -53,10 +56,15 @@ def _load_settings() -> Settings:
         )
 
     return Settings(
-        GEMINI_API_KEY      = os.getenv("GEMINI_API_KEY"),
+        GEMINI_API_KEY      = os.getenv("GEMINI_API_KEY"),   # None if not set — that's OK
         DATABASE_URL        = os.getenv("DATABASE_URL"),
         GMAIL_USER          = os.getenv("GMAIL_USER"),
         GMAIL_APP_PASSWORD  = os.getenv("GMAIL_APP_PASSWORD"),
+        RECIPIENT_EMAILS    = [
+            e.strip()
+            for e in os.getenv("RECIPIENT_EMAILS", "").split(",")
+            if e.strip()
+        ] or [os.getenv("GMAIL_USER", "")],  # fallback: send only to yourself
         DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL"),
         DIGEST_HOUR_IST     = int(os.getenv("DIGEST_HOUR_IST",   "8")),
         DIGEST_MINUTE_IST   = int(os.getenv("DIGEST_MINUTE_IST", "0")),
@@ -69,12 +77,13 @@ settings = _load_settings()
 
 def get_llm():
     """
-    Returns a configured Gemini 1.5 Flash LLM client.
-    Import and call this inside agent functions to avoid
-    creating multiple instances at module level.
+    Returns a configured Gemini 2.5 Flash LLM client, or None if
+    GEMINI_API_KEY is not set (zero-LLM mode).
     """
-    from langchain_google_genai import ChatGoogleGenerativeAI
+    if not settings.GEMINI_API_KEY:
+        return None
 
+    from langchain_google_genai import ChatGoogleGenerativeAI
     return ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
         google_api_key=settings.GEMINI_API_KEY,

@@ -15,9 +15,11 @@ import sys
 import io
 import logging
 
-# Fix Windows console Unicode encoding (supports emojis)
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+# Fix Windows console Unicode encoding (emojis in logs)
+# Not needed on Linux / GitHub Actions
+if sys.platform == "win32":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 import atexit
 from datetime import datetime
 from graph.workflow import build_graph, _get_pool

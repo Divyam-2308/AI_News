@@ -4,13 +4,24 @@ agents/scraper_agent.py
 Scraper Agent — LangGraph node that fetches AI news from
 multiple free sources: RSS feeds, ArXiv API, and HackerNews API.
 
-Sources:
-    1. Google News RSS (AI topic)
-    2. TechCrunch AI RSS
-    3. VentureBeat AI RSS
-    4. MIT Technology Review RSS
-    5. ArXiv API (cs.AI + cs.LG)
-    6. HackerNews Top Stories API
+Sources (13 RSS + ArXiv + HackerNews — all free, no API key):
+    RSS:
+        1.  Google News AI (Indian edition)
+        2.  TechCrunch AI
+        3.  VentureBeat AI
+        4.  MIT Technology Review
+        5.  The Verge — AI
+        6.  Wired — AI
+        7.  IEEE Spectrum — AI
+        8.  The Batch (deeplearning.ai newsletter)
+        9.  TLDR AI newsletter
+        10. Towards Data Science (Medium)
+        11. AI News (ainews.org)
+        12. Synced Review
+        13. InfoQ AI
+    API:
+        14. ArXiv (cs.AI + cs.LG) — latest research papers
+        15. HackerNews — top AI-tagged stories
 """
 
 from datetime import date
@@ -22,10 +33,21 @@ from tools.hackernews_tool import fetch_hackernews_articles
 
 # ── RSS Feed URLs ─────────────────────────────────────────────────────
 RSS_FEEDS = {
-    "Google News AI":       "https://news.google.com/rss/search?q=artificial+intelligence&hl=en-IN&gl=IN&ceid=IN:en",
-    "TechCrunch AI":        "https://techcrunch.com/category/artificial-intelligence/feed/",
-    "VentureBeat AI":       "https://venturebeat.com/category/ai/feed/",
-    "MIT Technology Review":"https://www.technologyreview.com/feed/",
+    # Already had these
+    "Google News AI":           "https://news.google.com/rss/search?q=artificial+intelligence&hl=en-IN&gl=IN&ceid=IN:en",
+    "TechCrunch AI":            "https://techcrunch.com/category/artificial-intelligence/feed/",
+    "VentureBeat AI":           "https://venturebeat.com/category/ai/feed/",
+    "MIT Technology Review":    "https://www.technologyreview.com/feed/",
+    # New high-quality sources
+    "The Verge":                "https://www.theverge.com/ai-artificial-intelligence/rss/index.xml",
+    "Wired":                    "https://www.wired.com/feed/category/artificial-intelligence/latest/rss",
+    "IEEE Spectrum":            "https://spectrum.ieee.org/feeds/topic/artificial-intelligence.rss",
+    "The Batch":                "https://www.deeplearning.ai/the-batch/feed/",
+    "TLDR AI":                  "https://tldr.tech/ai/rss",
+    "Towards Data Science":     "https://towardsdatascience.com/feed",
+    "AI News":                  "https://www.artificialintelligence-news.com/feed/",
+    "Synced Review":            "https://syncedreview.com/feed/",
+    "InfoQ AI":                 "https://feed.infoq.com/ai-ml-data-eng/",
 }
 
 
@@ -54,7 +76,7 @@ def scraper_node(state: GraphState) -> dict:
 
     # 2. Fetch from ArXiv (latest AI research papers)
     try:
-        arxiv_articles = fetch_arxiv_articles(max_results=10)
+        arxiv_articles = fetch_arxiv_articles(max_results=15)
         all_articles.extend(arxiv_articles)
         print(f"   ✅ ArXiv: {len(arxiv_articles)} papers")
     except Exception as e:
