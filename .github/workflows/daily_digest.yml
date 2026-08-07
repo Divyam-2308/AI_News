@@ -40,14 +40,39 @@ jobs:
       - name: 📦 Install dependencies
         run: pip install -r requirements.txt
 
+      # ── Step 4: Ensure required secrets exist before running pipeline
+      - name: 🔐 Check required secrets
+        id: preflight-secrets
+        env:
+          DATABASE_URL:        ${{ secrets.DATABASE_URL }}
+          GMAIL_USER:          ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD:  ${{ secrets.GMAIL_APP_PASSWORD }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          missing=()
+          for key in DATABASE_URL GMAIL_USER GMAIL_APP_PASSWORD DISCORD_WEBHOOK_URL; do
+            if [ -z "${!key}" ]; then
+              missing+=("$key")
+            fi
+          done
+
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "::warning::Skipping pipeline because required secrets are missing: ${missing[*]}"
+            echo "can_run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "can_run=true" >> "$GITHUB_OUTPUT"
+          fi
+
       # ── Step 4: Set up the database tables (safe to run every time)
       - name: 🗄️ Initialise database tables
+        if: steps.preflight-secrets.outputs.can_run == 'true'
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: python setup_db.py
 
       # ── Step 5: Run the full pipeline ────────────────────────────
       - name: 🚀 Run pipeline
+        if: steps.preflight-secrets.outputs.can_run == 'true'
         env:
           # ── Database ──────────────────────────────────────────────
           DATABASE_URL:        ${{ secrets.DATABASE_URL }}
