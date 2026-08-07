@@ -2,13 +2,18 @@
 tools/email_tool.py
 --------------------
 Gmail SMTP email sender using Jinja2 HTML templates.
-Loads credentials from environment variables.
+Includes:
+  - Clean article filtering (caps total email articles to ~15 to prevent email clipping & spam score)
+  - Dual multipart alternative (plain text + HTML) for high deliverability
+  - Proper email headers (Message-ID, Date, Reply-To) to avoid spam filters
 """
 
 import smtplib
 import os
+import uuid
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.utils import formatdate, make_msgid
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 from config import settings
@@ -28,21 +33,31 @@ def render_email_html(
 ) -> str:
     """
     Renders the HTML email body using the Jinja2 template.
-
-    Returns:
-        Rendered HTML string
+    Caps total category articles to max 2 per category and max 12 total,
+    excluding articles that already appear in top_stories.
     """
     template = jinja_env.get_template("email_digest.html")
 
-    # Group articles by category
+    # Exclude top story URLs from category section to avoid duplication
+    top_urls = {a.get("url") for a in top_stories if a.get("url")}
+    remaining_articles = [a for a in all_articles if a.get("url") not in top_urls]
+
+    # Group by category with strict limits (max 2 per category, max 12 total)
     categories: dict[str, list] = {}
-    for article in all_articles:
+    total_cat_count = 0
+
+    for article in remaining_articles:
+        if total_cat_count >= 12:
+            break
         cat = article.get("category", "Other")
-        categories.setdefault(cat, []).append(article)
+        cat_list = categories.setdefault(cat, [])
+        if len(cat_list) < 2:
+            cat_list.append(article)
+            total_cat_count += 1
 
     return template.render(
         run_date=run_date,
-        top_stories=top_stories,
+        top_stories=top_stories[:5],
         categories=categories,
         insights=insights,
         research_highlight=research_highlight,
@@ -50,24 +65,87 @@ def render_email_html(
     )
 
 
-def send_email(to: str, subject: str, html_body: str) -> None:
+def render_email_plain(
+    run_date: str,
+    top_stories: list[dict],
+    insights: str,
+    research_highlight: str,
+    total_new: int,
+) -> str:
+    """Generates a plain-text fallback version of the email digest."""
+    lines = [
+        f"🤖 AI Daily Digest — {run_date}",
+        f"New Articles Discovered Today: {total_new}",
+        "=" * 50,
+        "",
+        "🗞️ TODAY'S TOP 5 HEADLINES",
+        "-" * 30,
+    ]
+
+    for idx, story in enumerate(top_stories[:5], 1):
+        lines.append(f"{idx}. {story.get('title', '')}")
+        lines.append(f"   Category: {story.get('category', 'Other')} | Source: {story.get('source', '')}")
+        lines.append(f"   Link: {story.get('url', '')}")
+        if story.get("summary"):
+            lines.append(f"   Summary: {story.get('summary')[:160]}...")
+        lines.append("")
+
+    if insights:
+        lines.extend([
+            "🔥 TODAY'S TOP TREND",
+            "-" * 30,
+            insights,
+            "",
+        ])
+
+    if research_highlight and research_highlight != "No major research papers today.":
+        lines.extend([
+            "🔬 RESEARCH SPOTLIGHT",
+            "-" * 30,
+            research_highlight,
+            "",
+        ])
+
+    lines.extend([
+        "=" * 50,
+        "AI News Multi-Agent Digest",
+        "Reply to this email if you have feedback!",
+    ])
+
+    return "\n".join(lines)
+
+
+def send_email(to: str, subject: str, html_body: str, plain_body: str | None = None) -> None:
     """
-    Sends an HTML email via Gmail SMTP (SSL on port 465).
+    Sends a multipart (plain + HTML) email via Gmail SMTP.
 
     Args:
-        to:        Recipient email address
-        subject:   Email subject line
-        html_body: Full HTML content string
-
-    Raises:
-        Exception: If login or send fails
+        to:         Recipient email address
+        subject:    Email subject line
+        html_body:  HTML content string
+        plain_body: Optional plain text fallback
     """
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = subject
-    msg["From"]    = settings.GMAIL_USER
-    msg["To"]      = to
+    domain = settings.GMAIL_USER.split("@")[-1] if "@" in settings.GMAIL_USER else "gmail.com"
 
-    html_part = MIMEText(html_body, "html")
+    msg = MIMEMultipart("alternative")
+    msg["Subject"]           = subject
+    msg["From"]              = settings.GMAIL_USER
+    msg["To"]                = to
+    msg["Reply-To"]          = settings.GMAIL_USER
+    msg["Date"]              = formatdate(localtime=True)
+    msg["Message-ID"]        = make_msgid(domain=domain)
+    msg["X-Mailer"]          = "AI News Multi-Agent 2.0"
+    msg["List-Unsubscribe"]  = f"<mailto:{settings.GMAIL_USER}?subject=unsubscribe>"
+
+    # 1. Plain text fallback (MUST come before HTML in multipart/alternative)
+    if not plain_body:
+        plain_body = f"AI Daily Digest — {subject}\n\nPlease view this email in an HTML-compatible client."
+
+    text_part = MIMEText(plain_body, "plain", "utf-8")
+    msg.attach(text_part)
+
+    # 2. HTML body
+    html_part = MIMEText(html_body, "html", "utf-8")
     msg.attach(html_part)
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:

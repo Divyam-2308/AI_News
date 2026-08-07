@@ -38,9 +38,10 @@ def delivery_node(state: GraphState) -> dict:
     for email_address in recipients:
         try:
             send_email(
-                to        = email_address,
-                subject   = subject,
-                html_body = state.get("email_html", ""),
+                to         = email_address,
+                subject    = subject,
+                html_body  = state.get("email_html", ""),
+                plain_body = state.get("email_plain", ""),
             )
             sent_count += 1
             print(f"   ✅ Email → {email_address}")

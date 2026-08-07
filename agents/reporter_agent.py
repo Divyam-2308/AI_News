@@ -2,27 +2,30 @@
 agents/reporter_agent.py
 ------------------------
 Reporter Agent — LangGraph node that formats the processed articles
-into two delivery-ready formats:
+into delivery-ready formats:
     1. email_html    — Rich HTML digest for Gmail
-    2. discord_payload — Discord embed JSON for webhook
+    2. email_plain   — Plain-text fallback for Gmail
+    3. discord_payload — Discord embed JSON for webhook
 """
 
 from datetime import date
 from graph.state import GraphState
-from tools.email_tool import render_email_html
+from tools.email_tool import render_email_html, render_email_plain
 from tools.discord_tool import build_discord_payload
 
 
 def reporter_node(state: GraphState) -> dict:
     """
-    Builds the HTML email and Discord embed from processed articles.
+    Builds the HTML & plain email and Discord embed from processed articles.
 
     Reads:  categorized_articles, top_stories, insights, research_highlight, run_date
-    Writes: email_html, discord_payload, errors
+    Writes: email_html, email_plain, discord_payload, errors
     """
     print(f"\n📰 [Reporter] Building digest for {state.get('run_date', str(date.today()))}...")
 
     errors: list[str] = state.get("errors", [])
+    email_html  = ""
+    email_plain = ""
 
     try:
         # Build HTML email
@@ -34,10 +37,20 @@ def reporter_node(state: GraphState) -> dict:
             research_highlight=state.get("research_highlight", ""),
             total_new=state.get("total_new", 0),
         )
-        print("   ✅ HTML email built")
+
+        # Build Plain Text fallback email
+        email_plain = render_email_plain(
+            run_date=state.get("run_date", str(date.today())),
+            top_stories=state.get("top_stories", []),
+            insights=state.get("insights", ""),
+            research_highlight=state.get("research_highlight", ""),
+            total_new=state.get("total_new", 0),
+        )
+        print("   ✅ Email versions (HTML + Plain-Text) built")
     except Exception as e:
         errors.append(f"Reporter (email): {str(e)}")
-        email_html = f"<p>Error building email: {e}</p>"
+        email_html  = f"<p>Error building email: {e}</p>"
+        email_plain = f"Error building email: {e}"
         print(f"   ❌ Email build failed: {e}")
 
     try:
@@ -57,6 +70,7 @@ def reporter_node(state: GraphState) -> dict:
 
     return {
         "email_html":       email_html,
+        "email_plain":      email_plain,
         "discord_payload":  discord_payload,
         "errors":           errors,
     }

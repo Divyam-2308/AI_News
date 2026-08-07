@@ -31,6 +31,7 @@ class GraphState(TypedDict):
 
     # ── Delivery output ───────────────────────────────────────────────
     email_html: str                # Full HTML string for Gmail
+    email_plain: str               # Plain-text fallback string for Gmail
     discord_payload: dict          # Discord embed JSON payload
 
     # ── Run metadata ─────────────────────────────────────────────────
