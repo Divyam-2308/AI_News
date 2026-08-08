@@ -12,7 +12,7 @@ name: 🤖 AI News Daily Digest
 # ────────────────────────────────────────────────────────────────────
 on:
   schedule:
-    - cron: '30 2 * * *'   # 2:30 AM UTC = 8:00 AM IST, every day
+    - cron: '0 2 * * *'    # 2:00 AM UTC = 7:30 AM IST (accounts for GitHub queue delay -> lands ~8:00 AM IST)
 
   workflow_dispatch:        # allows clicking "Run workflow" in GitHub UI
 

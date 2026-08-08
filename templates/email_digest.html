@@ -1,416 +1,261 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🤖 AI Daily Digest — {{ run_date }}</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #0b0f19;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      color: #e2e8f0;
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.5;
-    }
-    a { color: inherit; text-decoration: none; }
-
-    .wrapper {
-      max-width: 650px;
-      margin: 0 auto;
-      padding: 24px 16px 48px;
-    }
-
-    /* ── Hero Header ─────────────────────────────────────────────── */
-    .header {
-      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c026d3 100%);
-      border-radius: 20px;
-      padding: 38px 28px;
-      text-align: center;
-      margin-bottom: 24px;
-      box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.4);
-      position: relative;
-    }
-    .header-badge {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(8px);
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      color: #ffffff;
-      margin-bottom: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-    }
-    .header h1 {
-      margin: 0 0 8px;
-      font-size: 32px;
-      font-weight: 800;
-      color: #ffffff;
-      letter-spacing: -0.8px;
-    }
-    .header p {
-      margin: 0;
-      color: rgba(255, 255, 255, 0.88);
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    /* ── Quick Stats Grid ────────────────────────────────────────── */
-    .stats-grid {
-      display: table;
-      width: 100%;
-      margin-bottom: 28px;
-      border-spacing: 10px 0;
-    }
-    .stat-card {
-      display: table-cell;
-      width: 33.33%;
-      background: #111827;
-      border-radius: 14px;
-      padding: 16px 12px;
-      text-align: center;
-      border: 1px solid #1f2937;
-    }
-    .stat-num {
-      font-size: 26px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #818cf8, #c084fc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: #818cf8;
-    }
-    .stat-label {
-      font-size: 11px;
-      color: #94a3b8;
-      font-weight: 600;
-      margin-top: 3px;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-    }
-
-    /* ── Section Title Header ────────────────────────────────────── */
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin: 32px 0 14px;
-    }
-    .section-title {
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: #818cf8;
-    }
-
-    /* ── Top 5 Headlines Card Box ────────────────────────────────── */
-    .headlines-box {
-      background: #111827;
-      border-radius: 16px;
-      border: 1px solid #1f2937;
-      overflow: hidden;
-      margin-bottom: 28px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
-    .headline-item {
-      display: block;
-      padding: 18px 20px;
-      border-bottom: 1px solid #1e293b;
-      text-decoration: none;
-    }
-    .headline-item:last-child {
-      border-bottom: none;
-    }
-    .headline-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .headline-num-cell {
-      width: 38px;
-      vertical-align: top;
-    }
-    .headline-num-circle {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      color: #ffffff;
-      font-size: 13px;
-      font-weight: 800;
-      text-align: center;
-      line-height: 28px;
-    }
-    .headline-content-cell {
-      vertical-align: top;
-      padding-left: 10px;
-    }
-    .headline-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #f1f5f9;
-      line-height: 1.4;
-      margin: 0 0 6px;
-    }
-    .headline-meta {
-      margin-bottom: 8px;
-    }
-    .badge {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 12px;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-      margin-right: 6px;
-    }
-    .badge-llms     { background: rgba(99, 102, 241, 0.18); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3); }
-    .badge-robotics { background: rgba(16, 185, 129, 0.18); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
-    .badge-tools    { background: rgba(245, 158, 11, 0.18); color: #fde047; border: 1px solid rgba(245, 158, 11, 0.3); }
-    .badge-research { background: rgba(139, 92, 246, 0.18); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.3); }
-    .badge-funding  { background: rgba(20, 184, 166, 0.18); color: #5eead4; border: 1px solid rgba(20, 184, 166, 0.3); }
-    .badge-policy   { background: rgba(244, 63, 94, 0.18);  color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.3); }
-    .badge-hardware { background: rgba(6, 182, 212, 0.18);  color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3); }
-    .badge-other    { background: rgba(100, 116, 139, 0.18); color: #cbd5e1; border: 1px solid rgba(100, 116, 139, 0.3); }
-
-    .source-tag {
-      font-size: 11px;
-      color: #64748b;
-      font-weight: 500;
-    }
-    .headline-summary {
-      font-size: 13px;
-      color: #94a3b8;
-      line-height: 1.55;
-      margin: 0;
-    }
-
-    /* ── Trend Insight Box ───────────────────────────────────────── */
-    .trend-box {
-      background: linear-gradient(135deg, rgba(79, 70, 229, 0.12) 0%, rgba(124, 58, 237, 0.12) 100%);
-      border-left: 4px solid #6366f1;
-      border-radius: 0 14px 14px 0;
-      padding: 20px 22px;
-      margin-bottom: 28px;
-      border-top: 1px solid rgba(99, 102, 241, 0.2);
-      border-right: 1px solid rgba(99, 102, 241, 0.2);
-      border-bottom: 1px solid rgba(99, 102, 241, 0.2);
-    }
-    .trend-box p {
-      margin: 0;
-      font-size: 14px;
-      line-height: 1.7;
-      color: #cbd5e1;
-      font-weight: 400;
-    }
-
-    /* ── Research Spotlight Box ─────────────────────────────────── */
-    .research-box {
-      background: linear-gradient(135deg, #030712 0%, #0f172a 100%);
-      border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 20px 22px;
-      margin-bottom: 28px;
-    }
-    .research-tag {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: #38bdf8;
-      margin-bottom: 8px;
-    }
-    .research-box p {
-      margin: 0;
-      font-size: 14px;
-      color: #7dd3fc;
-      line-height: 1.65;
-    }
-
-    /* ── Article Category Grid & Cards ───────────────────────────── */
-    .category-title {
-      font-size: 12px;
-      font-weight: 800;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin: 24px 0 12px;
-      padding-bottom: 6px;
-      border-bottom: 1px solid #1f2937;
-    }
-    .article-card {
-      background: #111827;
-      border-radius: 12px;
-      padding: 16px 18px;
-      margin-bottom: 12px;
-      border: 1px solid #1f2937;
-      display: block;
-      text-decoration: none;
-    }
-    .article-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: #f1f5f9;
-      margin: 0 0 6px;
-      line-height: 1.4;
-    }
-    .article-meta {
-      font-size: 11px;
-      color: #64748b;
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
-    .article-summary {
-      font-size: 12px;
-      color: #94a3b8;
-      line-height: 1.55;
-      margin: 0;
-    }
-
-    /* ── Divider ─────────────────────────────────────────────────── */
-    .divider {
-      border: none;
-      border-top: 1px solid #1e293b;
-      margin: 32px 0;
-    }
-
-    /* ── Footer ──────────────────────────────────────────────────── */
-    .footer {
-      text-align: center;
-      padding: 24px 0 8px;
-      border-top: 1px solid #1e293b;
-    }
-    .footer p {
-      font-size: 12px;
-      color: #64748b;
-      margin: 4px 0;
-    }
-    .footer a {
-      color: #818cf8;
-      text-decoration: underline;
-    }
-  </style>
 </head>
-<body>
-<div class="wrapper">
+<body style="margin: 0; padding: 0; background-color: #090d16; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; font-family: 'Segoe UI', Arial, Helvetica, sans-serif;">
 
-  <!-- Header -->
-  <div class="header">
-    <div class="header-badge">Daily AI Briefing</div>
-    <h1>🤖 AI Daily Digest</h1>
-    <p>{{ run_date }} &nbsp;·&nbsp; Curated Intelligence & Top Trends</p>
-  </div>
+  <!-- Outer Full-Width Dark Background Table (Bulletproof for Gmail) -->
+  <table width="100%" bgcolor="#090d16" cellpadding="0" cellspacing="0" border="0" style="background-color: #090d16; table-layout: fixed; width: 100%;">
+    <tr>
+      <td align="center" style="padding: 24px 10px 48px;">
+        
+        <!-- Main Fixed-Width Container (600px max) -->
+        <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; width: 100%;">
+          
+          <!-- ━━━ HERO HEADER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <tr>
+            <td style="padding-bottom: 24px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#5b21b6" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c026d3 100%); background-color: #5b21b6; border-radius: 20px; border: 1px solid #7c3aed;">
+                <tr>
+                  <td align="center" style="padding: 38px 24px; text-align: center;">
+                    <div style="display: inline-block; background-color: rgba(255, 255, 255, 0.2); padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                      DAILY AI BRIEFING
+                    </div>
+                    <h1 style="margin: 0 0 6px; font-size: 30px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; line-height: 1.2;">
+                      🤖 AI Daily Digest
+                    </h1>
+                    <p style="margin: 0; font-size: 14px; color: #e9d5ff; font-weight: 500;">
+                      {{ run_date }} &nbsp;·&nbsp; Curated Intelligence & Top Trends
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-  <!-- Stats Grid -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-num">{{ total_new }}</div>
-      <div class="stat-label">New Stories</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">{{ top_stories | length }}</div>
-      <div class="stat-label">Top Headlines</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">{{ categories | length }}</div>
-      <div class="stat-label">Categories</div>
-    </div>
-  </div>
+          <!-- ━━━ STATS DASHBOARD BAR ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <tr>
+            <td style="padding-bottom: 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <!-- Stat 1 -->
+                  <td width="31%" bgcolor="#131b2e" style="background-color: #131b2e; border-radius: 14px; border: 1px solid #232d45; padding: 16px 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 800; color: #a5b4fc; line-height: 1.1;">{{ total_new }}</div>
+                    <div style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 5px;">NEW STORIES</div>
+                  </td>
+                  <td width="3.5%"></td>
+                  <!-- Stat 2 -->
+                  <td width="31%" bgcolor="#131b2e" style="background-color: #131b2e; border-radius: 14px; border: 1px solid #232d45; padding: 16px 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 800; color: #34d399; line-height: 1.1;">{{ top_stories | length }}</div>
+                    <div style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 5px;">TOP HEADLINES</div>
+                  </td>
+                  <td width="3.5%"></td>
+                  <!-- Stat 3 -->
+                  <td width="31%" bgcolor="#131b2e" style="background-color: #131b2e; border-radius: 14px; border: 1px solid #232d45; padding: 16px 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 800; color: #c084fc; line-height: 1.1;">{{ categories | length }}</div>
+                    <div style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 5px;">CATEGORIES</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-  <!-- ━━━ TOP 5 HEADLINES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-  <div class="section-header">
-    <span class="section-title">🗞️ Today's Top 5 Headlines</span>
-  </div>
+          <!-- ━━━ TOP 5 HEADLINES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <tr>
+            <td style="padding-bottom: 10px;">
+              <div style="font-size: 12px; font-weight: 800; color: #818cf8; text-transform: uppercase; letter-spacing: 1.2px;">
+                🗞️ TODAY'S TOP 5 HEADLINES
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-bottom: 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#131b2e" style="background-color: #131b2e; border-radius: 16px; border: 1px solid #232d45;">
+                {% for article in top_stories[:5] %}
+                <tr>
+                  <td style="padding: 18px 20px; {% if not loop.last %}border-bottom: 1px solid #1e293b;{% endif %}">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- Circle Number -->
+                        <td width="36" valign="top" style="padding-top: 2px;">
+                          <div style="width: 28px; height: 28px; border-radius: 50%; background-color: #6366f1; color: #ffffff; font-size: 13px; font-weight: 800; text-align: center; line-height: 28px;">
+                            {{ loop.index }}
+                          </div>
+                        </td>
+                        <!-- Article Content -->
+                        <td valign="top">
+                          <a href="{{ article.url }}" target="_blank" style="text-decoration: none; display: block;">
+                            <div style="font-size: 15px; font-weight: 700; color: #f8fafc; line-height: 1.45; margin-bottom: 6px;">
+                              {{ article.title }}
+                            </div>
+                          </a>
+                          <div style="margin-bottom: 6px;">
+                            {% set cat = article.category | default('Other') %}
+                            {% if cat == 'LLMs' %}
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #1e1b4b; color: #a5b4fc; border: 1px solid #3730a3; text-transform: uppercase;">LLMs</span>
+                            {% elif cat == 'Robotics' %}
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #064e3b; color: #6ee7b7; border: 1px solid #065f46; text-transform: uppercase;">Robotics</span>
+                            {% elif cat == 'Tools' %}
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #451a03; color: #fde047; border: 1px solid #78350f; text-transform: uppercase;">Tools</span>
+                            {% elif cat == 'Research' %}
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #3b0764; color: #c4b5fd; border: 1px solid #581c87; text-transform: uppercase;">Research</span>
+                            {% elif cat == 'Funding' %}
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #134e4a; color: #5eead4; border: 1px solid #115e59; text-transform: uppercase;">Funding</span>
+                            {% elif cat == 'Policy' %}
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #4c0519; color: #fda4af; border: 1px solid #881337; text-transform: uppercase;">Policy</span>
+                            {% elif cat == 'Hardware' %}
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #164e63; color: #67e8f9; border: 1px solid #155e75; text-transform: uppercase;">Hardware</span>
+                            {% else %}
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #1e293b; color: #cbd5e1; border: 1px solid #334155; text-transform: uppercase;">{{ cat }}</span>
+                            {% endif %}
+                            <span style="font-size: 11px; color: #64748b; margin-left: 6px; font-weight: 500;">via {{ article.source }}</span>
+                          </div>
+                          {% if article.summary %}
+                          <div style="font-size: 13px; color: #94a3b8; line-height: 1.55; margin: 0;">
+                            {{ article.summary | truncate(160, True, '…') }}
+                          </div>
+                          {% endif %}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                {% else %}
+                <tr>
+                  <td style="padding: 20px; text-align: center; color: #64748b; font-size: 13px;">No top stories available today.</td>
+                </tr>
+                {% endfor %}
+              </table>
+            </td>
+          </tr>
 
-  <div class="headlines-box">
-    {% for article in top_stories[:5] %}
-    <a class="headline-item" href="{{ article.url }}" target="_blank">
-      <table class="headline-table">
-        <tr>
-          <td class="headline-num-cell">
-            <div class="headline-num-circle">{{ loop.index }}</div>
-          </td>
-          <td class="headline-content-cell">
-            <div class="headline-title">{{ article.title }}</div>
-            <div class="headline-meta">
-              {% set cat = article.category | default('Other') | lower | replace(' ','') %}
-              <span class="badge badge-{{ cat }}">{{ article.category | default('Other') }}</span>
-              <span class="source-tag">via {{ article.source }}</span>
-            </div>
-            {% if article.summary %}
-            <p class="headline-summary">{{ article.summary | truncate(160, True, '…') }}</p>
-            {% endif %}
-          </td>
-        </tr>
-      </table>
-    </a>
-    {% else %}
-    <div style="padding:20px;text-align:center;color:#64748b;font-size:13px;">No top stories available today.</div>
-    {% endfor %}
-  </div>
+          <!-- ━━━ TODAY'S TREND ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          {% if insights %}
+          <tr>
+            <td style="padding-bottom: 10px;">
+              <div style="font-size: 12px; font-weight: 800; color: #818cf8; text-transform: uppercase; letter-spacing: 1.2px;">
+                🔥 TODAY'S TOP TREND
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-bottom: 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#131728" style="background-color: #131728; border-left: 4px solid #6366f1; border-radius: 0 14px 14px 0; border-top: 1px solid #232d45; border-right: 1px solid #232d45; border-bottom: 1px solid #232d45;">
+                <tr>
+                  <td style="padding: 18px 22px;">
+                    <div style="font-size: 14px; line-height: 1.7; color: #cbd5e1; font-weight: 400; margin: 0;">
+                      {{ insights }}
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          {% endif %}
 
-  <!-- Today's Trend -->
-  {% if insights %}
-  <div class="section-header">
-    <span class="section-title">🔥 Today's Top Trend</span>
-  </div>
-  <div class="trend-box">
-    <p>{{ insights }}</p>
-  </div>
-  {% endif %}
+          <!-- ━━━ RESEARCH SPOTLIGHT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          {% if research_highlight and research_highlight != "No major research papers today." %}
+          <tr>
+            <td style="padding-bottom: 10px;">
+              <div style="font-size: 12px; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 1.2px;">
+                🔬 RESEARCH SPOTLIGHT
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-bottom: 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0b1329" style="background-color: #0b1329; border-radius: 14px; border: 1px solid #1d3557;">
+                <tr>
+                  <td style="padding: 18px 22px;">
+                    <div style="font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #38bdf8; margin-bottom: 6px;">
+                      ArXiv · Latest AI Paper
+                    </div>
+                    <div style="font-size: 14px; color: #7dd3fc; line-height: 1.65; margin: 0;">
+                      {{ research_highlight }}
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          {% endif %}
 
-  <!-- Research Spotlight -->
-  {% if research_highlight and research_highlight != "No major research papers today." %}
-  <div class="section-header">
-    <span class="section-title">🔬 Research Spotlight</span>
-  </div>
-  <div class="research-box">
-    <span class="research-tag">ArXiv · Latest AI Paper</span>
-    <p>{{ research_highlight }}</p>
-  </div>
-  {% endif %}
+          <!-- DIVIDER -->
+          <tr>
+            <td style="padding: 10px 0 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="border-top: 1px solid #1e293b;"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-  <hr class="divider" />
+          <!-- ━━━ ESSENTIAL STORIES BY CATEGORY ━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <tr>
+            <td style="padding-bottom: 14px;">
+              <div style="font-size: 12px; font-weight: 800; color: #818cf8; text-transform: uppercase; letter-spacing: 1.2px;">
+                📚 ESSENTIAL STORIES BY CATEGORY
+              </div>
+            </td>
+          </tr>
 
-  <!-- All Stories by Category -->
-  <div class="section-header">
-    <span class="section-title">📚 Essential Stories by Category</span>
-  </div>
+          {% for category, articles in categories.items() %}
+          {% if articles %}
+          <tr>
+            <td style="padding-bottom: 20px;">
+              <!-- Category Header -->
+              <div style="font-size: 12px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; padding-bottom: 6px; margin-bottom: 10px; border-bottom: 1px solid #1e293b;">
+                ● {{ category }}
+              </div>
 
-  {% for category, articles in categories.items() %}
-  {% if articles %}
-  <div>
-    <div class="category-title">
-      ● {{ category }}
-    </div>
-    {% for article in articles %}
-    <a class="article-card" href="{{ article.url }}" target="_blank">
-      <div class="article-title">{{ article.title }}</div>
-      <div class="article-meta">Source: {{ article.source }}</div>
-      {% if article.summary %}
-      <p class="article-summary">{{ article.summary | truncate(180, True, '…') }}</p>
-      {% endif %}
-    </a>
-    {% endfor %}
-  </div>
-  {% endif %}
-  {% endfor %}
+              <!-- Article Cards -->
+              {% for article in articles %}
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#131b2e" style="background-color: #131b2e; border-radius: 12px; border: 1px solid #232d45; margin-bottom: 10px;">
+                <tr>
+                  <td style="padding: 16px 18px;">
+                    <a href="{{ article.url }}" target="_blank" style="text-decoration: none; display: block;">
+                      <div style="font-size: 14px; font-weight: 700; color: #f8fafc; line-height: 1.4; margin-bottom: 6px;">
+                        {{ article.title }}
+                      </div>
+                    </a>
+                    <div style="font-size: 11px; color: #64748b; margin-bottom: 6px; font-weight: 500;">
+                      Source: {{ article.source }}
+                    </div>
+                    {% if article.summary %}
+                    <div style="font-size: 12px; color: #94a3b8; line-height: 1.55; margin: 0;">
+                      {{ article.summary | truncate(180, True, '…') }}
+                    </div>
+                    {% endif %}
+                  </td>
+                </tr>
+              </table>
+              {% endfor %}
+            </td>
+          </tr>
+          {% endif %}
+          {% endfor %}
 
-  <!-- Footer -->
-  <div class="footer">
-    <p>🤖 AI News Multi-Agent &nbsp;·&nbsp; Automated Daily Intelligence</p>
-    <p>Delivered directly to your inbox &nbsp;·&nbsp; Zero fluff, maximum signal</p>
-  </div>
+          <!-- ━━━ FOOTER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <tr>
+            <td style="padding-top: 20px; border-top: 1px solid #1e293b; text-align: center;">
+              <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">
+                🤖 AI News Multi-Agent &nbsp;·&nbsp; Automated Daily Intelligence
+              </div>
+              <div style="font-size: 11px; color: #475569;">
+                Delivered directly to your inbox &nbsp;·&nbsp; Zero fluff, maximum signal
+              </div>
+            </td>
+          </tr>
 
-</div>
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
 </body>
 </html>
