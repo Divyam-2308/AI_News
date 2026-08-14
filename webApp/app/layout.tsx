@@ -1,21 +1,37 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Kaisei_Decol, Kalnia, Instrument_Sans, Inter } from "next/font/google";
 import "@/styles/globals.css";
 
-const playfair = Playfair_Display({
+const kaiseiDecol = Kaisei_Decol({
   subsets: ["latin"],
-  variable: "--font-serif",
+  weight: ["400", "500", "700"],
+  variable: "--font-kaisei",
+  display: "swap",
+});
+
+const kalnia = Kalnia({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-kalnia",
+  display: "swap",
+});
+
+const instrumentSans = Instrument_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-instrument",
   display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
+  weight: ["400", "500", "600"],
+  variable: "--font-inter",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "ByteDaily — Get Latest AI News Daily On Your Email",
+  title: "ByteDaily — Get Latest AI News, Daily, On your E-mail",
   description:
     "ByteDaily uses AI to discover, summarize, and curate the news that matters to you. Delivering a personalized briefing straight to your inbox.",
 };
@@ -26,10 +42,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
-      <body className="min-h-full flex flex-col font-sans antialiased selection:bg-neutral-800 selection:text-white">
+    <html
+      lang="en"
+      className={`${kaiseiDecol.variable} ${kalnia.variable} ${instrumentSans.variable} ${inter.variable}`}
+    >
+      <body className="min-h-full flex flex-col font-sans antialiased selection:bg-neutral-800 selection:text-white bg-[#fcfdf4] text-[#000000]">
         {children}
       </body>
     </html>
   );
-}
+}
