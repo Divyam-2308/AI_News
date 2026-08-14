@@ -7,3 +7,11 @@ __pycache__/
 venv/
 *.log
 .DS_Store
+service_key.json
+structure.json
+# npm cache (relocated to repo root because C: was full)
+.npm-cache/
+
+# Agent & MCP secrets
+.agents/mcp_config.json
+

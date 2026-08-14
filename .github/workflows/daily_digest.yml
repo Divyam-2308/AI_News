@@ -38,46 +38,44 @@ jobs:
 
       # ── Step 3: Install project dependencies ─────────────────────
       - name: 📦 Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r server/requirements.txt
 
       # ── Step 4: Debug — verify secrets are loaded ─────────────────
       - name: 🔍 Verify secrets are loaded
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
-          if [ -z "$DATABASE_URL" ]; then
-            echo "❌ DATABASE_URL is EMPTY — secret is missing or blank"
+          if [ -z "$FIREBASE_SERVICE_ACCOUNT" ]; then
+            echo "❌ FIREBASE_SERVICE_ACCOUNT is EMPTY — secret is missing or blank"
             echo "Go to: Settings → Secrets and variables → Actions → Repository secrets"
             exit 1
           else
-            echo "✅ DATABASE_URL is set (length=${#DATABASE_URL} chars)"
+            echo "✅ FIREBASE_SERVICE_ACCOUNT is set (length=${#FIREBASE_SERVICE_ACCOUNT} chars)"
           fi
 
-      # ── Step 5: Set up the database tables (safe to run every time)
-      - name: 🗄️ Initialise database tables
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python setup_db.py
-
-      # ── Step 6: Run the full pipeline ────────────────────────────
+      # ── Step 5: Run the full pipeline ────────────────────────────
+      # Same single command you run locally — server.py is the entry point.
       - name: 🚀 Run pipeline
         env:
-          # ── Database ──────────────────────────────────────────────
-          DATABASE_URL:        ${{ secrets.DATABASE_URL }}
+          # ── Firebase (dedup store) ────────────────────────────────
+          FIREBASE_PROJECT_ID:     ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
-          # ── Email ─────────────────────────────────────────────────
+          # ── Email (SMTP) ──────────────────────────────────────────
+          # GMAIL_USER / GMAIL_APP_PASSWORD are the SMTP login (Gmail or Brevo).
+          # SMTP_HOST/PORT default to Gmail (smtp.gmail.com:465) if unset.
+          # Recipients come from the Firestore `users` collection — no env var.
           GMAIL_USER:          ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD:  ${{ secrets.GMAIL_APP_PASSWORD }}
-          RECIPIENT_EMAILS:    ${{ secrets.RECIPIENT_EMAILS }}
+          SMTP_HOST:           ${{ secrets.SMTP_HOST }}
+          SMTP_PORT:           ${{ secrets.SMTP_PORT }}
+          EMAIL_FROM:          ${{ secrets.EMAIL_FROM }}
 
-          # ── Discord ───────────────────────────────────────────────
+          # ── Discord (currently disabled in code) ─────────────────
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
-          # ── Schedule (informational only — not used in main.py) ───
+          # ── Schedule (used only by the web server's scheduler) ──
           DIGEST_HOUR_IST:     '8'
           DIGEST_MINUTE_IST:   '0'
 
-          # ── LLM (optional — remove the # if you add Gemini back) ─
-          # GEMINI_API_KEY:    ${{ secrets.GEMINI_API_KEY }}
-
-        run: python main.py
+        run: python -m server.server

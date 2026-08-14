@@ -1,0 +1,20 @@
+users/<user>:
+
+{
+    "name":"<name>",
+    "email":"<email>",
+    "timestamp":<timestamp>
+}
+
+
+blogs/<blog>:
+
+{
+    "title":"<article title>",
+    "content":"<full article content>",
+    "sources":[
+        {"<sourceName>":"<sourceUrl>"}
+    ],
+    "category":"<LLMs | Tools | Research | Funding | Policy | Robotics | Hardware | Other>",
+    "created_at":<timestamp>
+}
