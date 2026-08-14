@@ -134,6 +134,30 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        {/* 6. Updated Figma Feature: Registration Callout Banner Section */}
+        <section className="mt-28 w-full max-w-6xl relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#272e25] via-[#1d231b] to-[#121611] text-white p-12 md:p-16 flex flex-col md:flex-row items-center justify-between shadow-2xl border border-neutral-700/50 text-left">
+          <div className="max-w-2xl">
+            <span className="text-amber-200/90 font-serif italic text-2xl md:text-3xl font-medium tracking-wide">
+              By Registering
+            </span>
+            <h2 className="mt-2 font-serif text-4xl md:text-6xl font-bold tracking-tight text-white leading-tight">
+              Get Latest News
+            </h2>
+            <p className="mt-4 text-neutral-300 text-base md:text-lg leading-relaxed">
+              Delivering AI news, research breakthroughs, and daily briefings directly to your inbox.
+            </p>
+          </div>
+
+          <div className="mt-8 md:mt-0">
+            <button
+              onClick={() => setOpenSubscribe(true)}
+              className="bg-white hover:bg-neutral-100 text-neutral-900 text-lg md:text-xl font-bold px-9 py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all active:scale-95 whitespace-nowrap"
+            >
+              Subscribe Now
+            </button>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
