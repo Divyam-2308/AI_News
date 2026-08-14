@@ -1,0 +1,24 @@
+# News fetching & content parsing
+feedparser
+httpx
+beautifulsoup4
+lxml
+
+# Zero-LLM summarization (sumy — runs fully offline, no API key)
+sumy
+
+# Firebase (dedup store)
+google-cloud-firestore
+
+# API server
+fastapi
+uvicorn[standard]
+
+# Scheduling & templating
+apscheduler
+pytz
+jinja2
+
+# Utilities
+python-dotenv
+requests

@@ -1,0 +1,1 @@
+"""server.delivery — email and Discord senders."""
