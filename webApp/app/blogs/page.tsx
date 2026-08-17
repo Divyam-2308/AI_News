@@ -1,19 +1,34 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import Nav from "@/components/nav";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
 import { getAdminFirestore } from "@/lib/firebase";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Blogs — AI News",
+  title: "News — AI News",
 };
+
+function proxiedImage(image: string, w: number, h?: number): string {
+  if (!image) return "";
+  const params = [`url=${encodeURIComponent(image)}`, `w=${w}`, "fit=cover", "q=80"];
+  if (h) params.push(`h=${h}`);
+  return `https://images.weserv.nl/?${params.join("&")}`;
+}
 
 type BlogPost = {
   id: string;
   title: string;
   content: string;
+  image: string;
   category: string;
   sourceName: string;
   sourceUrl: string;
@@ -38,6 +53,7 @@ async function getPosts(): Promise<BlogPost[]> {
         id: doc.id,
         title: d.title ?? "Untitled",
         content: d.content ?? "",
+        image: d.image ?? "",
         category: d.category ?? "Other",
         sourceName: String(sourceName),
         sourceUrl: String(sourceUrl),
@@ -55,7 +71,7 @@ async function getPosts(): Promise<BlogPost[]> {
 function Description({ text }: { text: string }) {
   const clean = text.replace(/\s+/g, " ").trim();
   const snippet = clean.length > 200 ? `${clean.slice(0, 200)}…` : clean;
-  return <p className="text-sm text-muted-foreground">{snippet}</p>;
+  return <CardDescription>{snippet}</CardDescription>;
 }
 
 export default async function Blogs() {
@@ -65,37 +81,52 @@ export default async function Blogs() {
     <>
       <Nav />
 
-      <main className="mx-auto min-h-screen w-full max-w-5xl px-6 py-12">
-        <h1 className="mb-2 text-3xl font-bold tracking-tight">Blogs</h1>
-        <p className="mb-10 text-muted-foreground">
+      <main className="mx-auto w-full max-w-6xl px-6 py-14">
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          News
+        </h1>
+        <p className="mt-3 text-muted-foreground">
           The latest AI stories from our daily digest.
         </p>
 
         {posts.length === 0 ? (
-          <p className="text-muted-foreground">
-            No blog posts yet. They appear here as soon as the daily pipeline runs.
+          <p className="mt-10 text-muted-foreground">
+            No stories yet. They appear here as soon as the daily pipeline runs.
           </p>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
-              <Link
-                key={post.id}
-                href={`/blogs/${post.id}`}
-                className="group flex flex-col gap-3 rounded-xl border bg-card p-5 transition-colors hover:border-foreground/20"
-              >
-                <span className="inline-flex w-fit rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
-                  {post.category}
-                </span>
-                <h2 className="font-semibold leading-snug group-hover:underline">
-                  {post.title}
-                </h2>
-                <Description text={post.content} />
-                <span className="mt-auto pt-2 text-xs text-muted-foreground">
-                  {post.sourceName || "AI News"}
-                  {post.createdAt
-                    ? ` · ${new Date(post.createdAt).toLocaleDateString()}`
-                    : ""}
-                </span>
+              <Link key={post.id} href={`/blogs/${post.id}`} className="group">
+                <Card className="h-full overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/5">
+                  {post.image ? (
+                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
+                      <Image
+                        src={proxiedImage(post.image, 800, 450)}
+                        alt={post.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                  ) : null}
+                  <CardContent className="flex flex-1 flex-col gap-3 p-5">
+                    <div>
+                      <span className="inline-flex w-fit rounded-full border px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+                        {post.category}
+                      </span>
+                    </div>
+                    <CardTitle className="text-base font-semibold leading-snug transition-colors group-hover:underline">
+                      {post.title}
+                    </CardTitle>
+                    <Description text={post.content} />
+                    <span className="mt-auto pt-2 text-xs text-muted-foreground">
+                      {post.sourceName || "AI News"}
+                      {post.createdAt
+                        ? ` · ${new Date(post.createdAt).toLocaleDateString()}`
+                        : ""}
+                    </span>
+                  </CardContent>
+                </Card>
               </Link>
             ))}
           </div>

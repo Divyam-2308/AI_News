@@ -24,27 +24,32 @@ _HEADERS = {
 # Tags that never contain article body text
 _NOISE_TAGS = [
     "nav", "header", "footer", "aside", "script",
-    "style", "noscript", "form", "figure", "figcaption",
-    "iframe", "button", "input", "select",
+    "style", "noscript", "form", "iframe", "button",
+    "input", "select",
 ]
 
 
-def fetch_article_content(url: str, timeout: int = 10) -> str:
+def fetch_article_content(url: str, timeout: int = 10) -> tuple[str, str]:
     """
-    Downloads an article page and extracts its main text content.
+    Downloads an article page and extracts its main text content AND a
+    representative image URL (free — no storage or proxy needed).
 
-    Strategy:
+    Strategy for text:
         1. Try <article> or <main> element first (semantic HTML)
         2. Fall back to all <p> tags on the page
         3. Filter out short noise paragraphs (< 40 chars)
         4. Cap output at 5 000 characters
+
+    Strategy for image:
+        1. <meta property="og:image"> (the article's hero image)
+        2. First <img> inside the article container
 
     Args:
         url:     Article URL to fetch
         timeout: HTTP timeout in seconds
 
     Returns:
-        Extracted plain text, or empty string on failure
+        Tuple of (extracted plain text, image URL). Both are "" on failure.
     """
     try:
         response = httpx.get(
@@ -72,8 +77,30 @@ def fetch_article_content(url: str, timeout: int = 10) -> str:
         ]
 
         text = " ".join(paragraphs)
-        return text[:5000]
+        image = _extract_og_image(soup, container)
+        return text[:5000], image
 
     except Exception:
         # Never crash the pipeline over a single bad URL
-        return ""
+        return "", ""
+
+
+def _extract_og_image(soup, container) -> str:
+    """Returns the og:image URL, falling back to the first article <img>."""
+    og = soup.find("meta", property="og:image")
+    if og and og.get("content"):
+        return str(og["content"]).strip()
+
+    for img in container.find_all("img", limit=8):
+        src = img.get("src") or img.get("data-src") or ""
+        src = str(src).strip()
+        if not src.startswith(("http://", "https://")):
+            continue
+        if "data:image" in src or src.endswith((".svg", ".gif")):
+            continue
+        # Skip tiny UI icons / trackers (heuristic: reasonable URL length)
+        if len(src) < 25 or len(src) > 500:
+            continue
+        return src
+
+    return ""

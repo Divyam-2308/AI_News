@@ -9,17 +9,17 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #0d1117;
-      --surface:   #161b22;
-      --surface2:  #1c2128;
-      --border:    #21262d;
-      --accent:    #667eea;
-      --accent2:   #764ba2;
-      --text:      #e6edf3;
-      --text-muted:#8b949e;
-      --success:   #3fb950;
-      --error:     #f85149;
-      --warning:   #d29922;
+      --bg:        #fafafa;
+      --surface:   #ffffff;
+      --surface2:  #f4f4f5;
+      --border:    #e4e4e7;
+      --accent:    #0a0a0a;
+      --accent2:   #27272a;
+      --text:      #0a0a0a;
+      --text-muted:#71717a;
+      --success:   #16a34a;
+      --error:     #dc2626;
+      --warning:   #d97706;
     }
 
     body {
@@ -148,14 +148,14 @@
       padding: 4px 12px;
       border-radius: 20px;
     }
-    .d-badge.sent   { background:#1a3a2a; color:var(--success); }
-    .d-badge.failed { background:#3a1a1a; color:var(--error); }
+    .d-badge.sent   { background:#dcfce7; color:#15803d; }
+    .d-badge.failed { background:#fee2e2; color:#b91c1c; }
     .d-badge.none   { background:var(--surface2); color:var(--text-muted); }
 
     /* ── Next run card ───────────────────────────────────── */
     .next-run-card {
-      background: linear-gradient(135deg, #1a1f35, #1a1225);
-      border: 1px solid #2d3a6e;
+      background: #0a0a0a;
+      border: 1px solid #0a0a0a;
       border-radius: 14px;
       padding: 20px 22px;
       display: flex;
@@ -164,8 +164,8 @@
       margin-bottom: 28px;
     }
     .next-run-icon { font-size: 32px; }
-    .next-run-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #818cf8; margin-bottom: 4px; }
-    .next-run-time  { font-size: 16px; font-weight: 700; color: var(--text); }
+    .next-run-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #a1a1aa; margin-bottom: 4px; }
+    .next-run-time  { font-size: 16px; font-weight: 700; color: #ffffff; }
 
     /* ── Run history ─────────────────────────────────────── */
     .card {
@@ -213,9 +213,9 @@
       padding: 3px 10px;
       border-radius: 20px;
     }
-    .run-status.success { background:#1a3a2a; color:var(--success); }
-    .run-status.error   { background:#3a1a1a; color:var(--error); }
-    .run-status.running { background:#1a2040; color:var(--accent); }
+    .run-status.success { background:#dcfce7; color:#15803d; }
+    .run-status.error   { background:#fee2e2; color:#b91c1c; }
+    .run-status.running { background:#f4f4f5; color:#0a0a0a; }
 
     .empty-state {
       padding: 48px 22px;

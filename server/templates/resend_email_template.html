@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+  Resend Email Template — ByteDaily AI Daily Digest
+  ─────────────────────────────────────────────────────────────────────
+  HOW TO USE
+  1. Open https://resend.com/templates → "Create template".
+  2. Paste this file's HTML into the template editor.
+  3. Add the template variables below (name / type / fallback value).
+     Variables use triple-mustache syntax, e.g. {{{RUN_DATE}}}.
+  4. Publish the template.
+  5. Set RESEND_TEMPLATE_ID in server/.env to the template id (or alias),
+     and RESEND_FROM to a verified sender (e.g. "ByteDaily <news@yourdomain.com>").
+
+  VARIABLES (all are provided by server/delivery/email.py → build_email_template_data)
+    RUN_DATE             (string)  e.g. "Aug 15, 2026"
+    TOTAL_NEW            (number)  count of new stories today
+    TOP_HEADLINES        (number)  count of top headlines (usually 5)
+    CATEGORIES_COUNT     (number)  count of categories in the digest
+    TOP_STORIES_1        (string HTML) #1 story hero card (image + summary)
+    TOP_STORIES_2        (string HTML) top-5 list, stories #2-3 (empty if none)
+    TOP_STORIES_3        (string HTML) top-5 list, stories #4-5 (empty if none)
+    INSIGHTS             (string HTML) today's trend section (empty = hidden)
+    RESEARCH_HIGHLIGHT   (string HTML) research spotlight section (empty = hidden)
+    ESSENTIAL_STORIES_1  (string HTML) pre-rendered category cards (incl. header)
+    ESSENTIAL_STORIES_2  (string HTML) pre-rendered category cards (empty if none)
+
+  All list sections are pre-rendered server-side (Resend supports plain
+  variable substitution only — no loops / conditionals). Sections are split
+  across multiple variables so each string stays under Resend's 2,000-char
+  limit — even with article images (hotlinked via images.weserv.nl).
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ByteDaily — AI Daily Digest — {{{RUN_DATE}}}</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f5; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; font-family: 'Segoe UI', Arial, Helvetica, sans-serif;">
+
+  <!-- Outer Full-Width Background Table (bulletproof for Gmail) -->
+  <table width="100%" bgcolor="#f4f4f5" cellpadding="0" cellspacing="0" border="0" style="background-color: #f4f4f5; table-layout: fixed; width: 100%;">
+    <tr>
+      <td align="center" style="padding: 24px 10px 48px;">
+
+        <!-- Main Fixed-Width Container (600px max) -->
+        <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; width: 100%;">
+
+          <!-- ━━━ HERO HEADER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <tr>
+            <td style="padding-bottom: 24px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0a0a0a" style="background-color: #0a0a0a; border-radius: 20px; border: 1px solid #0a0a0a;">
+                <tr>
+                  <td align="center" style="padding: 38px 24px; text-align: center;">
+                    <div style="display: inline-block; background-color: rgba(255, 255, 255, 0.12); padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
+                      DAILY AI BRIEFING
+                    </div>
+                    <h1 style="margin: 0 0 6px; font-size: 30px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; line-height: 1.2;">
+                      ByteDaily
+                    </h1>
+                    <p style="margin: 0; font-size: 14px; color: #a1a1aa; font-weight: 500;">
+                      {{{RUN_DATE}}} &nbsp;·&nbsp; The AI news that matters, every morning
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ━━━ STATS BAR ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <tr>
+            <td style="padding-bottom: 28px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <!-- Stat 1 -->
+                  <td width="31%" bgcolor="#ffffff" style="background-color: #ffffff; border-radius: 14px; border: 1px solid #e4e4e7; padding: 16px 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 800; color: #0a0a0a; line-height: 1.1;">{{{TOTAL_NEW}}}</div>
+                    <div style="font-size: 10px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 5px;">NEW STORIES</div>
+                  </td>
+                  <td width="3.5%"></td>
+                  <!-- Stat 2 -->
+                  <td width="31%" bgcolor="#ffffff" style="background-color: #ffffff; border-radius: 14px; border: 1px solid #e4e4e7; padding: 16px 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 800; color: #0a0a0a; line-height: 1.1;">{{{TOP_HEADLINES}}}</div>
+                    <div style="font-size: 10px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 5px;">TOP HEADLINES</div>
+                  </td>
+                  <td width="3.5%"></td>
+                  <!-- Stat 3 -->
+                  <td width="31%" bgcolor="#ffffff" style="background-color: #ffffff; border-radius: 14px; border: 1px solid #e4e4e7; padding: 16px 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 800; color: #0a0a0a; line-height: 1.1;">{{{CATEGORIES_COUNT}}}</div>
+                    <div style="font-size: 10px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 5px;">CATEGORIES</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ━━━ DYNAMIC SECTIONS (pre-rendered server-side) ━━━━━━━━ -->
+          <tr>
+            <td>
+              {{{TOP_STORIES_1}}}
+              {{{TOP_STORIES_2}}}
+              {{{TOP_STORIES_3}}}
+              {{{INSIGHTS}}}
+              {{{RESEARCH_HIGHLIGHT}}}
+              {{{ESSENTIAL_STORIES_1}}}
+              {{{ESSENTIAL_STORIES_2}}}
+            </td>
+          </tr>
+
+          <!-- ━━━ FOOTER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <tr>
+            <td style="padding-top: 20px; border-top: 1px solid #e4e4e7; text-align: center;">
+              <div style="font-size: 12px; color: #71717a; margin-bottom: 4px;">
+                ByteDaily &nbsp;·&nbsp; Curated by AI, refined daily
+              </div>
+              <div style="font-size: 11px; color: #a1a1aa;">
+                Delivered directly to your inbox &nbsp;·&nbsp; Zero fluff, maximum signal
+              </div>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

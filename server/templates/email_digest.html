@@ -3,32 +3,32 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🤖 AI Daily Digest — {{ run_date }}</title>
+  <title>ByteDaily — AI Daily Digest — {{ run_date }}</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #090d16; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; font-family: 'Segoe UI', Arial, Helvetica, sans-serif;">
+<body style="margin: 0; padding: 0; background-color: #f4f4f5; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; font-family: 'Segoe UI', Arial, Helvetica, sans-serif;">
 
-  <!-- Outer Full-Width Dark Background Table (Bulletproof for Gmail) -->
-  <table width="100%" bgcolor="#090d16" cellpadding="0" cellspacing="0" border="0" style="background-color: #090d16; table-layout: fixed; width: 100%;">
+  <!-- Outer Full-Width Background Table (Bulletproof for Gmail) -->
+  <table width="100%" bgcolor="#f4f4f5" cellpadding="0" cellspacing="0" border="0" style="background-color: #f4f4f5; table-layout: fixed; width: 100%;">
     <tr>
       <td align="center" style="padding: 24px 10px 48px;">
-        
+
         <!-- Main Fixed-Width Container (600px max) -->
         <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; width: 100%;">
-          
+
           <!-- ━━━ HERO HEADER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
           <tr>
             <td style="padding-bottom: 24px;">
-              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#5b21b6" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c026d3 100%); background-color: #5b21b6; border-radius: 20px; border: 1px solid #7c3aed;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0a0a0a" style="background-color: #0a0a0a; border-radius: 20px; border: 1px solid #0a0a0a;">
                 <tr>
                   <td align="center" style="padding: 38px 24px; text-align: center;">
-                    <div style="display: inline-block; background-color: rgba(255, 255, 255, 0.2); padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                    <div style="display: inline-block; background-color: rgba(255, 255, 255, 0.12); padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; color: #ffffff; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.2);">
                       DAILY AI BRIEFING
                     </div>
                     <h1 style="margin: 0 0 6px; font-size: 30px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; line-height: 1.2;">
-                      🤖 AI Daily Digest
+                      ByteDaily
                     </h1>
-                    <p style="margin: 0; font-size: 14px; color: #e9d5ff; font-weight: 500;">
-                      {{ run_date }} &nbsp;·&nbsp; Curated Intelligence & Top Trends
+                    <p style="margin: 0; font-size: 14px; color: #a1a1aa; font-weight: 500;">
+                      {{ run_date }} &nbsp;·&nbsp; The AI news that matters, every morning
                     </p>
                   </td>
                 </tr>
@@ -36,27 +36,27 @@
             </td>
           </tr>
 
-          <!-- ━━━ STATS DASHBOARD BAR ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+          <!-- ━━━ STATS BAR ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
           <tr>
             <td style="padding-bottom: 28px;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <!-- Stat 1 -->
-                  <td width="31%" bgcolor="#131b2e" style="background-color: #131b2e; border-radius: 14px; border: 1px solid #232d45; padding: 16px 8px; text-align: center;">
-                    <div style="font-size: 28px; font-weight: 800; color: #a5b4fc; line-height: 1.1;">{{ total_new }}</div>
-                    <div style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 5px;">NEW STORIES</div>
+                  <td width="31%" bgcolor="#ffffff" style="background-color: #ffffff; border-radius: 14px; border: 1px solid #e4e4e7; padding: 16px 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 800; color: #0a0a0a; line-height: 1.1;">{{ total_new }}</div>
+                    <div style="font-size: 10px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 5px;">NEW STORIES</div>
                   </td>
                   <td width="3.5%"></td>
                   <!-- Stat 2 -->
-                  <td width="31%" bgcolor="#131b2e" style="background-color: #131b2e; border-radius: 14px; border: 1px solid #232d45; padding: 16px 8px; text-align: center;">
-                    <div style="font-size: 28px; font-weight: 800; color: #34d399; line-height: 1.1;">{{ top_stories | length }}</div>
-                    <div style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 5px;">TOP HEADLINES</div>
+                  <td width="31%" bgcolor="#ffffff" style="background-color: #ffffff; border-radius: 14px; border: 1px solid #e4e4e7; padding: 16px 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 800; color: #0a0a0a; line-height: 1.1;">{{ top_stories | length }}</div>
+                    <div style="font-size: 10px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 5px;">TOP HEADLINES</div>
                   </td>
                   <td width="3.5%"></td>
                   <!-- Stat 3 -->
-                  <td width="31%" bgcolor="#131b2e" style="background-color: #131b2e; border-radius: 14px; border: 1px solid #232d45; padding: 16px 8px; text-align: center;">
-                    <div style="font-size: 28px; font-weight: 800; color: #c084fc; line-height: 1.1;">{{ categories | length }}</div>
-                    <div style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 5px;">CATEGORIES</div>
+                  <td width="31%" bgcolor="#ffffff" style="background-color: #ffffff; border-radius: 14px; border: 1px solid #e4e4e7; padding: 16px 8px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 800; color: #0a0a0a; line-height: 1.1;">{{ categories | length }}</div>
+                    <div style="font-size: 10px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 5px;">CATEGORIES</div>
                   </td>
                 </tr>
               </table>
@@ -66,56 +66,68 @@
           <!-- ━━━ TOP 5 HEADLINES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
           <tr>
             <td style="padding-bottom: 10px;">
-              <div style="font-size: 12px; font-weight: 800; color: #818cf8; text-transform: uppercase; letter-spacing: 1.2px;">
-                🗞️ TODAY'S TOP 5 HEADLINES
+              <div style="font-size: 12px; font-weight: 800; color: #0a0a0a; text-transform: uppercase; letter-spacing: 1.2px;">
+                TODAY'S TOP 5 HEADLINES
               </div>
             </td>
           </tr>
           <tr>
             <td style="padding-bottom: 28px;">
-              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#131b2e" style="background-color: #131b2e; border-radius: 16px; border: 1px solid #232d45;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color: #ffffff; border-radius: 16px; border: 1px solid #e4e4e7;">
                 {% for article in top_stories[:5] %}
                 <tr>
-                  <td style="padding: 18px 20px; {% if not loop.last %}border-bottom: 1px solid #1e293b;{% endif %}">
+                  <td style="padding: 0;">
+                    <!-- Hero image for the #1 story -->
+                    {% if article.image and loop.first %}
+                    <a href="{{ article.url }}" target="_blank" style="text-decoration: none; display: block;">
+                      <img src="{{ article.image }}" width="560" alt="" style="display: block; width: 100%; max-width: 560px; height: auto; border: 0; border-radius: 16px 16px 0 0;" />
+                    </a>
+                    {% endif %}
                     <table width="100%" cellpadding="0" cellspacing="0" border="0">
                       <tr>
                         <!-- Circle Number -->
-                        <td width="36" valign="top" style="padding-top: 2px;">
-                          <div style="width: 28px; height: 28px; border-radius: 50%; background-color: #6366f1; color: #ffffff; font-size: 13px; font-weight: 800; text-align: center; line-height: 28px;">
+                        <td width="36" valign="top" style="padding: 18px 0 18px 20px;">
+                          <div style="width: 28px; height: 28px; border-radius: 50%; background-color: #0a0a0a; color: #ffffff; font-size: 13px; font-weight: 800; text-align: center; line-height: 28px;">
                             {{ loop.index }}
                           </div>
                         </td>
+                        <!-- Thumbnail for stories #2-5 -->
+                        {% if article.image and not loop.first %}
+                        <td width="64" valign="top" style="padding: 18px 0;">
+                          <img src="{{ article.image }}" width="64" alt="" style="width: 64px; height: 64px; object-fit: cover; border-radius: 10px; border: 1px solid #e4e4e7;" />
+                        </td>
+                        {% endif %}
                         <!-- Article Content -->
-                        <td valign="top">
+                        <td valign="top" style="padding: 18px 20px; {% if not loop.last %}border-bottom: 1px solid #e4e4e7;{% endif %}">
                           <a href="{{ article.url }}" target="_blank" style="text-decoration: none; display: block;">
-                            <div style="font-size: 15px; font-weight: 700; color: #f8fafc; line-height: 1.45; margin-bottom: 6px;">
+                            <div style="font-size: 15px; font-weight: 700; color: #0a0a0a; line-height: 1.45; margin-bottom: 6px;">
                               {{ article.title }}
                             </div>
                           </a>
                           <div style="margin-bottom: 6px;">
                             {% set cat = article.category | default('Other') %}
                             {% if cat == 'LLMs' %}
-                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #1e1b4b; color: #a5b4fc; border: 1px solid #3730a3; text-transform: uppercase;">LLMs</span>
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #ffffff; color: #0a0a0a; border: 1px solid #0a0a0a; text-transform: uppercase;">LLMs</span>
                             {% elif cat == 'Robotics' %}
-                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #064e3b; color: #6ee7b7; border: 1px solid #065f46; text-transform: uppercase;">Robotics</span>
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #ffffff; color: #0a0a0a; border: 1px solid #0a0a0a; text-transform: uppercase;">Robotics</span>
                             {% elif cat == 'Tools' %}
-                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #451a03; color: #fde047; border: 1px solid #78350f; text-transform: uppercase;">Tools</span>
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #ffffff; color: #0a0a0a; border: 1px solid #0a0a0a; text-transform: uppercase;">Tools</span>
                             {% elif cat == 'Research' %}
-                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #3b0764; color: #c4b5fd; border: 1px solid #581c87; text-transform: uppercase;">Research</span>
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #ffffff; color: #0a0a0a; border: 1px solid #0a0a0a; text-transform: uppercase;">Research</span>
                             {% elif cat == 'Funding' %}
-                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #134e4a; color: #5eead4; border: 1px solid #115e59; text-transform: uppercase;">Funding</span>
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #ffffff; color: #0a0a0a; border: 1px solid #0a0a0a; text-transform: uppercase;">Funding</span>
                             {% elif cat == 'Policy' %}
-                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #4c0519; color: #fda4af; border: 1px solid #881337; text-transform: uppercase;">Policy</span>
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #ffffff; color: #0a0a0a; border: 1px solid #0a0a0a; text-transform: uppercase;">Policy</span>
                             {% elif cat == 'Hardware' %}
-                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #164e63; color: #67e8f9; border: 1px solid #155e75; text-transform: uppercase;">Hardware</span>
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #ffffff; color: #0a0a0a; border: 1px solid #0a0a0a; text-transform: uppercase;">Hardware</span>
                             {% else %}
-                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #1e293b; color: #cbd5e1; border: 1px solid #334155; text-transform: uppercase;">{{ cat }}</span>
+                              <span style="display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; background-color: #ffffff; color: #0a0a0a; border: 1px solid #0a0a0a; text-transform: uppercase;">{{ cat }}</span>
                             {% endif %}
-                            <span style="font-size: 11px; color: #64748b; margin-left: 6px; font-weight: 500;">via {{ article.source }}</span>
+                            <span style="font-size: 11px; color: #71717a; margin-left: 6px; font-weight: 500;">via {{ article.source }}</span>
                           </div>
                           {% if article.summary %}
-                          <div style="font-size: 13px; color: #94a3b8; line-height: 1.55; margin: 0;">
-                            {{ article.summary | truncate(160, True, '…') }}
+                          <div style="font-size: 13px; color: #52525b; line-height: 1.55; margin: 0;">
+                            {{ article.summary | truncate(200, True, '…') }}
                           </div>
                           {% endif %}
                         </td>
@@ -125,7 +137,7 @@
                 </tr>
                 {% else %}
                 <tr>
-                  <td style="padding: 20px; text-align: center; color: #64748b; font-size: 13px;">No top stories available today.</td>
+                  <td style="padding: 20px; text-align: center; color: #71717a; font-size: 13px;">No top stories available today.</td>
                 </tr>
                 {% endfor %}
               </table>
@@ -136,17 +148,17 @@
           {% if insights %}
           <tr>
             <td style="padding-bottom: 10px;">
-              <div style="font-size: 12px; font-weight: 800; color: #818cf8; text-transform: uppercase; letter-spacing: 1.2px;">
-                🔥 TODAY'S TOP TREND
+              <div style="font-size: 12px; font-weight: 800; color: #0a0a0a; text-transform: uppercase; letter-spacing: 1.2px;">
+                TODAY'S TOP TREND
               </div>
             </td>
           </tr>
           <tr>
             <td style="padding-bottom: 28px;">
-              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#131728" style="background-color: #131728; border-left: 4px solid #6366f1; border-radius: 0 14px 14px 0; border-top: 1px solid #232d45; border-right: 1px solid #232d45; border-bottom: 1px solid #232d45;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color: #ffffff; border-left: 4px solid #0a0a0a; border-radius: 0 14px 14px 0; border-top: 1px solid #e4e4e7; border-right: 1px solid #e4e4e7; border-bottom: 1px solid #e4e4e7;">
                 <tr>
                   <td style="padding: 18px 22px;">
-                    <div style="font-size: 14px; line-height: 1.7; color: #cbd5e1; font-weight: 400; margin: 0;">
+                    <div style="font-size: 14px; line-height: 1.7; color: #27272a; font-weight: 400; margin: 0;">
                       {{ insights }}
                     </div>
                   </td>
@@ -160,20 +172,20 @@
           {% if research_highlight and research_highlight != "No major research papers today." %}
           <tr>
             <td style="padding-bottom: 10px;">
-              <div style="font-size: 12px; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 1.2px;">
-                🔬 RESEARCH SPOTLIGHT
+              <div style="font-size: 12px; font-weight: 800; color: #0a0a0a; text-transform: uppercase; letter-spacing: 1.2px;">
+                RESEARCH SPOTLIGHT
               </div>
             </td>
           </tr>
           <tr>
             <td style="padding-bottom: 28px;">
-              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#0b1329" style="background-color: #0b1329; border-radius: 14px; border: 1px solid #1d3557;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color: #ffffff; border-radius: 14px; border: 1px solid #e4e4e7;">
                 <tr>
                   <td style="padding: 18px 22px;">
-                    <div style="font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #38bdf8; margin-bottom: 6px;">
+                    <div style="font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #71717a; margin-bottom: 6px;">
                       ArXiv · Latest AI Paper
                     </div>
-                    <div style="font-size: 14px; color: #7dd3fc; line-height: 1.65; margin: 0;">
+                    <div style="font-size: 14px; color: #18181b; line-height: 1.65; margin: 0;">
                       {{ research_highlight }}
                     </div>
                   </td>
@@ -188,7 +200,7 @@
             <td style="padding: 10px 0 28px;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td style="border-top: 1px solid #1e293b;"></td>
+                  <td style="border-top: 1px solid #e4e4e7;"></td>
                 </tr>
               </table>
             </td>
@@ -197,8 +209,8 @@
           <!-- ━━━ ESSENTIAL STORIES BY CATEGORY ━━━━━━━━━━━━━━━━━━━━━━━ -->
           <tr>
             <td style="padding-bottom: 14px;">
-              <div style="font-size: 12px; font-weight: 800; color: #818cf8; text-transform: uppercase; letter-spacing: 1.2px;">
-                📚 ESSENTIAL STORIES BY CATEGORY
+              <div style="font-size: 12px; font-weight: 800; color: #0a0a0a; text-transform: uppercase; letter-spacing: 1.2px;">
+                ESSENTIAL STORIES BY CATEGORY
               </div>
             </td>
           </tr>
@@ -208,28 +220,35 @@
           <tr>
             <td style="padding-bottom: 20px;">
               <!-- Category Header -->
-              <div style="font-size: 12px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; padding-bottom: 6px; margin-bottom: 10px; border-bottom: 1px solid #1e293b;">
-                ● {{ category }}
+              <div style="font-size: 12px; font-weight: 800; color: #0a0a0a; text-transform: uppercase; letter-spacing: 1px; padding-bottom: 6px; margin-bottom: 10px; border-bottom: 1px solid #e4e4e7;">
+                {{ category }}
               </div>
 
               <!-- Article Cards -->
               {% for article in articles %}
-              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#131b2e" style="background-color: #131b2e; border-radius: 12px; border: 1px solid #232d45; margin-bottom: 10px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color: #ffffff; border-radius: 12px; border: 1px solid #e4e4e7; margin-bottom: 10px;">
                 <tr>
-                  <td style="padding: 16px 18px;">
+                  <td style="padding: 0;">
+                    {% if article.image %}
                     <a href="{{ article.url }}" target="_blank" style="text-decoration: none; display: block;">
-                      <div style="font-size: 14px; font-weight: 700; color: #f8fafc; line-height: 1.4; margin-bottom: 6px;">
+                      <img src="{{ article.image }}" width="560" alt="" style="display: block; width: 100%; max-width: 560px; height: auto; border: 0; border-radius: 12px 12px 0 0;" />
+                    </a>
+                    {% endif %}
+                    <div style="padding: 16px 18px;">
+                    <a href="{{ article.url }}" target="_blank" style="text-decoration: none; display: block;">
+                      <div style="font-size: 14px; font-weight: 700; color: #0a0a0a; line-height: 1.4; margin-bottom: 6px;">
                         {{ article.title }}
                       </div>
                     </a>
-                    <div style="font-size: 11px; color: #64748b; margin-bottom: 6px; font-weight: 500;">
+                    <div style="font-size: 11px; color: #71717a; margin-bottom: 6px; font-weight: 500;">
                       Source: {{ article.source }}
                     </div>
                     {% if article.summary %}
-                    <div style="font-size: 12px; color: #94a3b8; line-height: 1.55; margin: 0;">
-                      {{ article.summary | truncate(180, True, '…') }}
+                    <div style="font-size: 12px; color: #52525b; line-height: 1.55; margin: 0;">
+                      {{ article.summary | truncate(220, True, '…') }}
                     </div>
                     {% endif %}
+                    </div>
                   </td>
                 </tr>
               </table>
@@ -241,11 +260,11 @@
 
           <!-- ━━━ FOOTER ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
           <tr>
-            <td style="padding-top: 20px; border-top: 1px solid #1e293b; text-align: center;">
-              <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">
-                🤖 AI News Multi-Agent &nbsp;·&nbsp; Automated Daily Intelligence
+            <td style="padding-top: 20px; border-top: 1px solid #e4e4e7; text-align: center;">
+              <div style="font-size: 12px; color: #71717a; margin-bottom: 4px;">
+                ByteDaily &nbsp;·&nbsp; Curated by AI, refined daily
               </div>
-              <div style="font-size: 11px; color: #475569;">
+              <div style="font-size: 11px; color: #a1a1aa;">
                 Delivered directly to your inbox &nbsp;·&nbsp; Zero fluff, maximum signal
               </div>
             </td>

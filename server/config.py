@@ -2,10 +2,21 @@
 config.py
 ---------
 Central configuration loader for the AI News server.
-Loads all settings from server/.env and exposes them as a typed object.
 
-The pipeline is fully zero-LLM — no API keys are required beyond
-Firebase, email, and Discord credentials.
+Every setting and secret is read from environment variables (a `.env`
+file next to this module) — nothing is stored online. Secrets live only
+in your local `server/.env` (gitignored) or as GitHub Actions secrets.
+
+The datastore (Firestore dedup / blogs / subscribers) needs one credential,
+also passed via env:
+
+    FIREBASE_PROJECT_ID       — GCP project id
+    FIREBASE_SERVICE_ACCOUNT  — service-account JSON (or base64 of it),
+                                used to connect to Firestore
+
+All other settings are plain env vars, e.g.:
+    RESEND_API_KEY, RESEND_FROM, RESEND_TEMPLATE_ID, DISCORD_WEBHOOK_URL,
+    DIGEST_HOUR_IST, DIGEST_MINUTE_IST, ...
 """
 
 import base64
@@ -13,10 +24,26 @@ import json
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
+
+
+# ── Env helpers ─────────────────────────────────────────────────────────
+
+def _env(key: str, default: str = "") -> str:
+    """Reads a string env var (empty string when unset)."""
+    return os.getenv(key, default)
+
+
+def _env_int(key: str, default: int) -> int:
+    """Reads an integer env var, falling back to `default` on garbage."""
+    try:
+        return int(os.getenv(key, default) or default)
+    except (TypeError, ValueError):
+        return default
 
 
 def _parse_service_account(raw: str) -> dict:
@@ -38,29 +65,34 @@ def _parse_service_account(raw: str) -> dict:
         )
 
 
+# ── Settings ────────────────────────────────────────────────────────────
+
 @dataclass
 class Settings:
-    # Firebase (server auth — service account)
+    # Firebase datastore (bootstrap credentials)
     FIREBASE_PROJECT_ID: str
     FIREBASE_SERVICE_ACCOUNT: dict = field(repr=False)
 
-    # Email
-    GMAIL_USER: str
-    GMAIL_APP_PASSWORD: str
+    # Email (Resend)
+    RESEND_API_KEY: str = ""
+    RESEND_FROM: str = "ByteDaily <onboarding@resend.dev>"
+    RESEND_TEMPLATE_ID: str = ""
+
+    # Email (legacy SMTP — kept for reference, not used for sending)
+    GMAIL_USER: str = ""
+    GMAIL_APP_PASSWORD: str = ""
+    SMTP_HOST: str = "smtp.gmail.com"
+    SMTP_PORT: int = 465
+    EMAIL_FROM: str = ""
 
     # Discord
-    DISCORD_WEBHOOK_URL: str
+    DISCORD_WEBHOOK_URL: str = ""
 
-    # Schedule
-    DIGEST_HOUR_IST: int
-    DIGEST_MINUTE_IST: int
+    # Schedule (web server APScheduler)
+    DIGEST_HOUR_IST: int = 8
+    DIGEST_MINUTE_IST: int = 0
 
-    # SMTP (overrides the default Gmail endpoint; e.g. Brevo)
-    SMTP_HOST: str = "smtp.gmail.com"
-    SMTP_PORT: int = 465           # 465 = SSL, 587 = STARTTLS
-    EMAIL_FROM: str = ""           # "From" address (your official email); falls back to GMAIL_USER
-
-    # Firebase (web SDK config — kept for the future webApp)
+    # Firebase web-app config (frontend, public — not secrets)
     FIREBASE_API_KEY: str | None = None
     FIREBASE_AUTH_DOMAIN: str | None = None
     FIREBASE_STORAGE_BUCKET: str | None = None
@@ -69,46 +101,24 @@ class Settings:
     FIREBASE_MEASUREMENT_ID: str | None = None
 
 
-def _load_settings() -> Settings:
-    """Loads and validates environment variables."""
-    missing = [
-        key for key in (
-            "FIREBASE_PROJECT_ID",
-            "FIREBASE_SERVICE_ACCOUNT",
-            "GMAIL_USER", "GMAIL_APP_PASSWORD",
-            "DISCORD_WEBHOOK_URL",
-        )
-        if not os.getenv(key)
-    ]
-
-    if missing:
-        raise EnvironmentError(
-            f"Missing required environment variables: {', '.join(missing)}\n"
-            "Please check your server/.env file."
-        )
-
-    return Settings(
-        FIREBASE_PROJECT_ID        = os.getenv("FIREBASE_PROJECT_ID", ""),
-        FIREBASE_SERVICE_ACCOUNT   = _parse_service_account(os.getenv("FIREBASE_SERVICE_ACCOUNT", "")),
-
-        FIREBASE_API_KEY           = os.getenv("FIREBASE_API_KEY") or None,
-        FIREBASE_AUTH_DOMAIN       = os.getenv("FIREBASE_AUTH_DOMAIN") or None,
-        FIREBASE_STORAGE_BUCKET    = os.getenv("FIREBASE_STORAGE_BUCKET") or None,
-        FIREBASE_MESSAGING_SENDER_ID = os.getenv("FIREBASE_MESSAGING_SENDER_ID") or None,
-        FIREBASE_APP_ID            = os.getenv("FIREBASE_APP_ID") or None,
-        FIREBASE_MEASUREMENT_ID    = os.getenv("FIREBASE_MEASUREMENT_ID") or None,
-
-        GMAIL_USER                 = os.getenv("GMAIL_USER", ""),
-        GMAIL_APP_PASSWORD         = os.getenv("GMAIL_APP_PASSWORD", ""),
-        DISCORD_WEBHOOK_URL        = os.getenv("DISCORD_WEBHOOK_URL", ""),
-        DIGEST_HOUR_IST            = int(os.getenv("DIGEST_HOUR_IST",   "8")),
-        DIGEST_MINUTE_IST          = int(os.getenv("DIGEST_MINUTE_IST", "0")),
-
-        SMTP_HOST                  = os.getenv("SMTP_HOST", "smtp.gmail.com"),
-        SMTP_PORT                  = int(os.getenv("SMTP_PORT", "465")),
-        EMAIL_FROM                 = os.getenv("EMAIL_FROM", ""),
-    )
-
-
-# Singleton settings object — import this everywhere
-settings = _load_settings()
+settings = Settings(
+    FIREBASE_PROJECT_ID           = _env("FIREBASE_PROJECT_ID"),
+    FIREBASE_SERVICE_ACCOUNT      = _parse_service_account(_env("FIREBASE_SERVICE_ACCOUNT")),
+    RESEND_API_KEY                = _env("RESEND_API_KEY"),
+    RESEND_FROM                   = _env("RESEND_FROM", "ByteDaily <onboarding@resend.dev>"),
+    RESEND_TEMPLATE_ID            = _env("RESEND_TEMPLATE_ID"),
+    GMAIL_USER                    = _env("GMAIL_USER"),
+    GMAIL_APP_PASSWORD            = _env("GMAIL_APP_PASSWORD"),
+    SMTP_HOST                     = _env("SMTP_HOST", "smtp.gmail.com"),
+    SMTP_PORT                     = _env_int("SMTP_PORT", 465),
+    EMAIL_FROM                    = _env("EMAIL_FROM"),
+    DISCORD_WEBHOOK_URL           = _env("DISCORD_WEBHOOK_URL"),
+    DIGEST_HOUR_IST               = _env_int("DIGEST_HOUR_IST", 8),
+    DIGEST_MINUTE_IST             = _env_int("DIGEST_MINUTE_IST", 0),
+    FIREBASE_API_KEY              = _env("FIREBASE_API_KEY") or None,
+    FIREBASE_AUTH_DOMAIN          = _env("FIREBASE_AUTH_DOMAIN") or None,
+    FIREBASE_STORAGE_BUCKET       = _env("FIREBASE_STORAGE_BUCKET") or None,
+    FIREBASE_MESSAGING_SENDER_ID  = _env("FIREBASE_MESSAGING_SENDER_ID") or None,
+    FIREBASE_APP_ID               = _env("FIREBASE_APP_ID") or None,
+    FIREBASE_MEASUREMENT_ID       = _env("FIREBASE_MEASUREMENT_ID") or None,
+)

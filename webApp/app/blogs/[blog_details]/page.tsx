@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -6,6 +7,13 @@ import Nav from "@/components/nav";
 import { getAdminFirestore } from "@/lib/firebase";
 
 export const dynamic = "force-dynamic";
+
+function proxiedImage(image: string, w: number, h?: number): string {
+  if (!image) return "";
+  const params = [`url=${encodeURIComponent(image)}`, `w=${w}`, "fit=cover", "q=80"];
+  if (h) params.push(`h=${h}`);
+  return `https://images.weserv.nl/?${params.join("&")}`;
+}
 
 type Props = {
   params: Promise<{ blog_details: string }>;
@@ -15,6 +23,7 @@ type BlogPost = {
   id: string;
   title: string;
   content: string;
+  image: string;
   category: string;
   sourceName: string;
   sourceUrl: string;
@@ -35,6 +44,7 @@ async function getPost(id: string): Promise<BlogPost | null> {
       id: doc.id,
       title: d.title ?? "Untitled",
       content: d.content ?? "",
+      image: d.image ?? "",
       category: d.category ?? "Other",
       sourceName: String(sourceName),
       sourceUrl: String(sourceUrl),
@@ -69,19 +79,19 @@ export default async function BlogDetail({ params }: Props) {
     <>
       <Nav />
 
-      <article className="mx-auto min-h-screen w-full max-w-3xl px-6 py-12">
+      <article className="mx-auto w-full max-w-3xl px-6 py-14">
         <Link
           href="/blogs"
-          className="text-sm text-muted-foreground hover:text-foreground"
+          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
-          ← Back to blogs
+          ← Back to news
         </Link>
 
-        <span className="mt-6 inline-flex w-fit rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+        <span className="mt-6 inline-flex w-fit rounded-full border px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
           {post.category}
         </span>
 
-        <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
+        <h1 className="mt-4 text-3xl font-semibold leading-tight tracking-tight text-balance sm:text-4xl">
           {post.title}
         </h1>
 
@@ -94,6 +104,18 @@ export default async function BlogDetail({ params }: Props) {
               })
             : ""}
         </p>
+
+        {post.image ? (
+          <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-2xl border bg-muted">
+            <Image
+              src={proxiedImage(post.image, 1200, 675)}
+              alt={post.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="object-cover"
+            />
+          </div>
+        ) : null}
 
         <div className="mt-8 space-y-4 leading-relaxed text-foreground/90">
           {paragraphs.length > 1 ? (
@@ -110,7 +132,7 @@ export default async function BlogDetail({ params }: Props) {
               href={post.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary underline underline-offset-4 hover:text-foreground"
+              className="font-medium underline underline-offset-4 hover:text-foreground"
             >
               {post.sourceName || post.sourceUrl}
             </a>

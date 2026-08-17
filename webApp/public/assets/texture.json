@@ -1,0 +1,35 @@
+{
+    "texture": {
+        "size": {
+            "x": 4,
+            "y": 4
+        },
+        "radius": 8.4
+    },
+    "hatching": {
+        "pattern": "Waves",
+        "density": 0.05,
+        "softness": 0,
+        "frequency": 2.6,
+        "amplitude": 3.7,
+        "offset": {
+            "x": 0,
+            "y": 0
+        },
+        "background": {
+            "color": "FFFFFF",
+            "opacity": 0
+        },
+        "foreground": {
+            "color": "FFFFFF",
+            "opacity": 100
+        },
+        "transform": {
+            "x": 50,
+            "y": 50,
+            "rotation": 1.7,
+            "angle": 44
+        }
+    },
+    "color": "FFFFFF"
+}

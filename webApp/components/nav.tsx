@@ -2,8 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import NewsletterForm from "@/components/form";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface NavProps {
   onOpenSubscribe?: () => void;
@@ -11,6 +14,10 @@ interface NavProps {
 
 export default function Nav({ onOpenSubscribe }: NavProps) {
   const [internalOpen, setInternalOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isHome = pathname === "/";
+  const isNews = pathname.startsWith("/blogs");
 
   const handleSubscribe = () => {
     if (onOpenSubscribe) {
@@ -22,39 +29,46 @@ export default function Nav({ onOpenSubscribe }: NavProps) {
 
   return (
     <>
-      <header className="w-full py-8 px-6 md:px-12 lg:px-16 max-w-[1553px] mx-auto flex items-center justify-between z-20 relative">
-        {/* Left Links */}
-        <div className="flex items-center gap-8 font-[family-name:var(--font-instrument)] text-[18px] text-[#000000] font-normal">
-          <Link
-            href="/#about"
-            className="hover:opacity-75 transition-opacity"
-          >
-            About
-          </Link>
-          <Link
-            href="/blogs"
-            className="hover:opacity-75 transition-opacity"
-          >
-            News
-          </Link>
-        </div>
+      <header className="sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur-md">
+        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6 md:px-10">
+          {/* Left Links */}
+          <nav className="flex items-center gap-7 text-sm font-medium text-muted-foreground">
+            <Link
+              href="/"
+              className={cn(
+                "relative transition-colors hover:text-foreground",
+                isHome
+                  ? "text-foreground after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-full after:rounded-full after:bg-foreground"
+                  : "text-muted-foreground",
+              )}
+            >
+              Home
+            </Link>
+            <Link
+              href="/blogs"
+              className={cn(
+                "relative transition-colors hover:text-foreground",
+                isNews
+                  ? "text-foreground after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-full after:rounded-full after:bg-foreground"
+                  : "text-muted-foreground",
+              )}
+            >
+              News
+            </Link>
+          </nav>
 
-        {/* Center Logo */}
-        <Link
-          href="/"
-          className="font-[family-name:var(--font-kalnia)] text-[25px] md:text-[28px] font-semibold text-[#000000] tracking-normal hover:opacity-90 transition-opacity"
-        >
-          ByteDaily
-        </Link>
-
-        {/* Right CTA Button */}
-        <div>
-          <button
-            onClick={handleSubscribe}
-            className="bg-[#342d38] hover:bg-[#251f28] text-[#f4fff3] font-[family-name:var(--font-instrument)] text-[18px] font-medium w-[128px] h-[45px] rounded-[9px] flex items-center justify-center transition-all shadow-sm hover:shadow active:scale-95"
+          {/* Center Logo */}
+          <Link
+            href="/"
+            className="absolute left-1/2 -translate-x-1/2 text-lg font-semibold tracking-tight transition-opacity hover:opacity-70"
           >
+            ByteDaily
+          </Link>
+
+          {/* Right CTA Button */}
+          <Button onClick={handleSubscribe} size="sm" className="px-4">
             Subscribe
-          </button>
+          </Button>
         </div>
       </header>
 

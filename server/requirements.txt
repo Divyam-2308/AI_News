@@ -19,6 +19,9 @@ apscheduler
 pytz
 jinja2
 
+# Email delivery (Resend API — replaces SMTP)
+resend
+
 # Utilities
 python-dotenv
 requests

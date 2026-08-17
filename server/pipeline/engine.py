@@ -205,13 +205,15 @@ def _process_article(article: dict) -> tuple[dict, str | None]:
         rss_content  = article.get("content", "").strip()
 
         # Fetch full body if RSS only has a stub (< 300 chars)
+        # fetch_article_content returns (text, og:image) in one request.
         full_content = ""
+        og_image     = ""
         if url and len(rss_content) < 300:
-            full_content = fetch_article_content(url)
+            full_content, og_image = fetch_article_content(url)
 
         text_to_summarize = full_content or rss_content or article.get("title", "")
 
-        summary = _lexrank_summarize(text_to_summarize, sentence_count=3)
+        summary = _lexrank_summarize(text_to_summarize, sentence_count=4)
         if not summary:
             summary = article.get("title", "No summary available.")
 
@@ -223,6 +225,7 @@ def _process_article(article: dict) -> tuple[dict, str | None]:
         article_copy["full_content"] = full_content
         article_copy["summary"]      = summary
         article_copy["category"]     = category
+        article_copy["image"]        = og_image or (article.get("image") or "")
 
     except Exception as exc:
         article_copy["summary"]  = article.get("title", "No summary available.")

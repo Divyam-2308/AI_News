@@ -23,7 +23,7 @@ def fetch_rss_articles(source_name: str, feed_url: str, max_articles: int = 15) 
 
     Returns:
         List of normalized article dicts with keys:
-        title, url, source, content, published_at
+        title, url, source, content, image, published_at
     """
     feed = feedparser.parse(feed_url)
     articles = []
@@ -56,10 +56,38 @@ def fetch_rss_articles(source_name: str, feed_url: str, max_articles: int = 15) 
             "url":          str(entry.get("link") or ""),
             "source":       source_name,
             "content":      content[:3000],  # Cap at 3000 chars
+            "image":        _extract_image(entry),
             "published_at": published_at,
         })
 
     return articles
+
+
+def _extract_image(entry) -> str:
+    """
+    Pulls a thumbnail from RSS media tags (free — feeds already carry them).
+    Priority: <media:content> → <media:thumbnail> → <enclosure type=image/*>.
+    Returns the first usable image URL, or "" if the feed has none.
+    """
+    for src in (entry.get("media_content") or []):
+        if isinstance(src, dict):
+            url = src.get("url")
+            if url:
+                return str(url)
+
+    for src in (entry.get("media_thumbnail") or []):
+        if isinstance(src, dict):
+            url = src.get("url")
+            if url:
+                return str(url)
+
+    for enc in (entry.get("enclosures") or []):
+        url = getattr(enc, "href", None) or (enc.get("href") if isinstance(enc, dict) else None)
+        etype = getattr(enc, "type", "") or (enc.get("type", "") if isinstance(enc, dict) else "")
+        if url and str(etype).startswith("image"):
+            return str(url)
+
+    return ""
 
 
 def _strip_html(text: str) -> str:

@@ -44,6 +44,7 @@ jobs:
       - name: 🔍 Verify secrets are loaded
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
         run: |
           if [ -z "$FIREBASE_SERVICE_ACCOUNT" ]; then
             echo "❌ FIREBASE_SERVICE_ACCOUNT is EMPTY — secret is missing or blank"
@@ -52,24 +53,30 @@ jobs:
           else
             echo "✅ FIREBASE_SERVICE_ACCOUNT is set (length=${#FIREBASE_SERVICE_ACCOUNT} chars)"
           fi
+          if [ -z "$RESEND_API_KEY" ]; then
+            echo "❌ RESEND_API_KEY is EMPTY — secret is missing or blank"
+            echo "Get one at https://resend.com/api-keys and add it as a repository secret"
+            exit 1
+          else
+            echo "✅ RESEND_API_KEY is set (length=${#RESEND_API_KEY} chars)"
+          fi
 
       # ── Step 5: Run the full pipeline ────────────────────────────
       # Same single command you run locally — server.py is the entry point.
+      # All settings come from environment variables (GitHub secrets).
       - name: 🚀 Run pipeline
         env:
-          # ── Firebase (dedup store) ────────────────────────────────
-          FIREBASE_PROJECT_ID:     ${{ secrets.FIREBASE_PROJECT_ID }}
+          # ── Firebase (dedup store / blogs / subscribers) ──────────
+          FIREBASE_PROJECT_ID:      ${{ secrets.FIREBASE_PROJECT_ID }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
-          # ── Email (SMTP) ──────────────────────────────────────────
-          # GMAIL_USER / GMAIL_APP_PASSWORD are the SMTP login (Gmail or Brevo).
-          # SMTP_HOST/PORT default to Gmail (smtp.gmail.com:465) if unset.
-          # Recipients come from the Firestore `users` collection — no env var.
-          GMAIL_USER:          ${{ secrets.GMAIL_USER }}
-          GMAIL_APP_PASSWORD:  ${{ secrets.GMAIL_APP_PASSWORD }}
-          SMTP_HOST:           ${{ secrets.SMTP_HOST }}
-          SMTP_PORT:           ${{ secrets.SMTP_PORT }}
-          EMAIL_FROM:          ${{ secrets.EMAIL_FROM }}
+          # ── Email (Resend) ───────────────────────────────────────
+          # Emails are sent through the Resend API. If RESEND_TEMPLATE_ID
+          # is set, the published Resend template is used; otherwise the
+          # rendered HTML digest is sent directly.
+          RESEND_API_KEY:      ${{ secrets.RESEND_API_KEY }}
+          RESEND_FROM:         ${{ secrets.RESEND_FROM }}
+          RESEND_TEMPLATE_ID:  ${{ secrets.RESEND_TEMPLATE_ID }}
 
           # ── Discord (currently disabled in code) ─────────────────
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}

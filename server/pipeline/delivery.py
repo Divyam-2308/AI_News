@@ -1,7 +1,7 @@
 """
 delivery.py
 -----------
-Sends the daily digest via Gmail SMTP and a Discord webhook.
+Sends the daily digest via the Resend API and a Discord webhook.
 This is the final step of the pipeline.
 """
 
@@ -14,30 +14,31 @@ def deliver(state: dict) -> dict:
     """
     Delivers the daily digest to all configured recipients and Discord.
 
-    Reads:  email_html, email_plain, discord_payload, run_date
+    Reads:  email_template_data, email_html, email_plain, discord_payload, run_date
     Writes: delivery_status, errors
     """
     run_date   = state.get("run_date", "Today")
     recipients = get_recipients()  # subscriber emails from Firestore `users` collection
     subject    = f"🤖 AI Daily Digest — {run_date}"
 
-    print(f"\n📬 [Delivery] Sending digest for {run_date}...")
+    print(f"\n📬 [Delivery] Sending digest for {run_date} via Resend...")
     print(f"   📧 Recipients (from Firestore users): {recipients}")
 
     delivery_status: dict = {}
     errors: list[str]     = list(state.get("errors", []))
 
-    # ── 1. Send Gmail to each recipient ───────────────────────────────
+    # ── 1. Send via Resend to each recipient ──────────────────────────
     sent_count   = 0
     failed_count = 0
 
     for email_address in recipients:
         try:
             send_email(
-                to         = email_address,
-                subject    = subject,
-                html_body  = state.get("email_html", ""),
-                plain_body = state.get("email_plain", ""),
+                to            = email_address,
+                subject       = subject,
+                template_data = state.get("email_template_data") or None,
+                html_body     = state.get("email_html", ""),
+                plain_body    = state.get("email_plain", ""),
             )
             sent_count += 1
             print(f"   ✅ Email → {email_address}")

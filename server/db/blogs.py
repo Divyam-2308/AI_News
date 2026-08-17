@@ -57,6 +57,8 @@ def save_article(article: dict) -> None:
         doc_ref.set({
             "title":      article.get("title", ""),
             "content":    content,
+            "summary":    article.get("summary", ""),
+            "image":      article.get("image", ""),
             "sources":    [{article.get("source", ""): url}],
             "category":   article.get("category", "Other"),
             "created_at": firestore.SERVER_TIMESTAMP,
