@@ -46,7 +46,7 @@ export default function RootLayout({
       lang="en"
       className={`${kaiseiDecol.variable} ${kalnia.variable} ${instrumentSans.variable} ${inter.variable}`}
     >
-      <body className="min-h-full flex flex-col font-sans antialiased selection:bg-foreground selection:text-background bg-background text-foreground">
+      <body className="min-h-full flex flex-col font-sans antialiased selection:bg-neutral-800 selection:text-white bg-[#fcfdf4] text-[#000000]">
         {children}
       </body>
     </html>
