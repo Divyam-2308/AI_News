@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Kaisei_Decol, Kalnia, Instrument_Sans, Inter } from "next/font/google";
+import { Questrial, Redacted_Script, Instrument_Sans, Inter } from "next/font/google";
 import "@/styles/globals.css";
 
-const kaiseiDecol = Kaisei_Decol({
+const questrial = Questrial({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-kaisei",
+  weight: ["400"],
+  variable: "--font-questrial",
   display: "swap",
 });
 
-const kalnia = Kalnia({
+const redactedScript = Redacted_Script({
   subsets: ["latin"],
-  weight: ["400", "600"],
-  variable: "--font-kalnia",
+  weight: ["400"],
+  variable: "--font-redacted",
   display: "swap",
 });
 
@@ -31,9 +31,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "ByteDaily — Get Latest AI News, Daily, On your E-mail",
+  title: "AI-News — Get Latest AI News & Be Updated",
   description:
-    "ByteDaily uses AI to discover, summarize, and curate the news that matters to you. Delivering a personalized briefing straight to your inbox.",
+    "Register and get latest AI news, research breakthroughs, and daily digests delivered to your digital doorstep.",
 };
 
 export default function RootLayout({
@@ -44,11 +44,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${kaiseiDecol.variable} ${kalnia.variable} ${instrumentSans.variable} ${inter.variable}`}
+      suppressHydrationWarning
+      className={`${questrial.variable} ${redactedScript.variable} ${instrumentSans.variable} ${inter.variable}`}
     >
-      <body className="min-h-full flex flex-col font-sans antialiased selection:bg-neutral-800 selection:text-white bg-[#fcfdf4] text-[#000000]">
+      <body
+        suppressHydrationWarning
+        className="min-h-full flex flex-col font-[family-name:var(--font-questrial)] antialiased selection:bg-neutral-800 selection:text-white bg-[#ffffff] text-[#000000]"
+      >
         {children}
       </body>
     </html>
   );
-}
+}
