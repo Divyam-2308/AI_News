@@ -26,9 +26,7 @@ export default function Home() {
       const data = (await res.json()) as { message?: string };
       setQuickMsg(data.message ?? "Registered successfully!");
       setQuickStatus(res.ok ? "success" : "error");
-      if (res.ok) {
-        setQuickEmail("");
-      }
+      if (res.ok) setQuickEmail("");
     } catch {
       setQuickMsg("Something went wrong. Please try again.");
       setQuickStatus("error");
@@ -36,35 +34,36 @@ export default function Home() {
   }
 
   return (
-    <div className="w-screen min-h-screen bg-[#ffffff] flex items-center justify-center p-2 sm:p-3 md:p-4 overflow-hidden selection:bg-neutral-900 selection:text-white">
-      {/* Edge-to-Edge Responsive Blue Card Container */}
+    /* Outer white frame — matches Figma card-with-border look */
+    <div className="w-screen h-screen bg-white flex items-center justify-center p-[6px] sm:p-[8px] md:p-[10px] overflow-hidden selection:bg-neutral-900 selection:text-white">
+      {/* Blue card — overflow-hidden clips phone bottom naturally */}
       <div
-        className="relative w-full h-[calc(100vh-16px)] sm:h-[calc(100vh-24px)] md:h-[calc(100vh-32px)] rounded-[18px] sm:rounded-[22px] md:rounded-[26px] overflow-hidden shadow-2xl flex flex-col justify-between items-center text-center bg-cover bg-center bg-no-repeat"
+        className="relative w-full h-full rounded-[16px] sm:rounded-[20px] md:rounded-[24px] overflow-hidden flex flex-col bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/images/BG.png')" }}
       >
-        {/* 1. Floating Glass Navbar at the Top */}
-        <div className="relative z-10 w-full px-2 sm:px-4 md:px-6 pt-2 sm:pt-3 md:pt-4">
+        {/* 1. Navbar */}
+        <div className="relative z-20 w-full px-3 sm:px-5 md:px-8 pt-3 sm:pt-4 md:pt-5 shrink-0">
           <Nav onOpenSubscribe={() => setOpenRegisterModal(true)} />
         </div>
 
-        {/* 2. Hero Center Section */}
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center w-full px-4 py-2">
-          {/* Main Headline */}
-          <h1 className="font-[family-name:var(--font-questrial)] font-normal text-[36px] sm:text-[46px] md:text-[56px] lg:text-[64px] text-[#ffffff] leading-[1.08] tracking-tight max-w-[850px] mx-auto drop-shadow-md">
+        {/* 2. Hero — compact flex section so phone sits below with proper gap at 100% zoom */}
+        <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 pt-1 sm:pt-2 shrink-0">
+          {/* Headline */}
+          <h1 className="font-[family-name:var(--font-questrial)] font-normal text-[32px] sm:text-[44px] md:text-[54px] lg:text-[60px] text-white leading-[1.08] tracking-tight max-w-[850px] mx-auto">
             Get Latest AI News <br />
             &amp; Be Updated
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-3 md:mt-4 font-[family-name:var(--font-questrial)] font-normal text-[15px] sm:text-[18px] md:text-[21px] text-[#ffffff] max-w-[750px] mx-auto leading-relaxed drop-shadow-sm px-4">
+          <p className="mt-2 sm:mt-3 font-[family-name:var(--font-questrial)] font-normal text-[13px] sm:text-[15px] md:text-[17px] text-white/85 max-w-[540px] mx-auto leading-relaxed">
             Register and get latest news and blogs at your digital door step.
           </p>
 
-          {/* Centered Frosted Glass Email Pill */}
-          <div className="mt-5 md:mt-7 w-full max-w-[560px] px-2">
+          {/* Email Pill matching Figma Register-Field specs (658x71, 000000 20% fill, FFFFFF 80% placeholder) */}
+          <div className="mt-3 sm:mt-4 md:mt-5 w-full max-w-[340px] sm:max-w-[500px] md:max-w-[620px]">
             <form
               onSubmit={handleQuickSubscribe}
-              className="w-full h-[54px] sm:h-[60px] md:h-[66px] bg-[#000000]/25 backdrop-blur-xl border border-white/25 rounded-[76px] px-3 md:px-3.5 flex items-center justify-between shadow-2xl transition-transform duration-200 focus-within:scale-[1.01]"
+              className="w-full h-[48px] sm:h-[56px] md:h-[64px] bg-[#000000]/20 backdrop-blur-xl border border-white/20 rounded-[100px] px-3 sm:px-4 flex items-center justify-between shadow-2xl transition-transform duration-200 focus-within:scale-[1.01]"
             >
               <input
                 type="email"
@@ -73,39 +72,32 @@ export default function Home() {
                 value={quickEmail}
                 onChange={(e) => setQuickEmail(e.target.value)}
                 disabled={quickStatus === "submitting"}
-                className="flex-1 bg-transparent border-none outline-none font-[family-name:var(--font-questrial)] text-[15px] sm:text-[17px] md:text-[20px] text-[#ffffff] placeholder:text-[#ffffff]/80 px-3 md:px-4"
+                className="flex-1 bg-transparent border-none outline-none font-[family-name:var(--font-questrial)] text-[13px] sm:text-[16px] md:text-[18px] text-white placeholder:text-white/80 px-2 sm:px-4"
               />
-
               <button
                 type="submit"
                 disabled={quickStatus === "submitting"}
-                className="w-[105px] sm:w-[125px] md:w-[140px] h-[38px] sm:h-[44px] md:h-[48px] bg-[#ffffff] hover:bg-neutral-100 text-[#000000] font-[family-name:var(--font-questrial)] text-[15px] sm:text-[17px] md:text-[20px] font-normal rounded-[76px] flex items-center justify-center transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
+                className="w-[94px] sm:w-[118px] md:w-[138px] h-[36px] sm:h-[44px] md:h-[50px] bg-white hover:bg-neutral-100 text-[#000000] font-[family-name:var(--font-questrial)] text-[13px] sm:text-[16px] md:text-[18px] font-normal rounded-[100px] flex items-center justify-center transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
               >
                 {quickStatus === "submitting" ? "..." : "Register"}
               </button>
             </form>
 
-            {/* Status feedback */}
             {quickMsg && (
-              <p
-                className={`mt-2 text-sm ${
-                  quickStatus === "success" ? "text-emerald-950 font-medium" : "text-rose-950 font-medium"
-                }`}
-              >
+              <p className={`mt-1.5 text-xs sm:text-sm ${quickStatus === "success" ? "text-white font-medium" : "text-rose-200 font-medium"}`}>
                 {quickMsg}
               </p>
             )}
           </div>
         </div>
 
-        {/* 3. Phone Mockup firmly anchored to the bottom edge */}
-        <div className="relative z-10 w-full max-w-[440px] sm:max-w-[490px] md:max-w-[535px] flex justify-center shrink-0 -mb-0.5">
+        {/* 3. Phone — bottom-anchored with clean top gap at 100% zoom */}
+        <div className="relative z-10 flex justify-center items-end flex-1 pt-3 sm:pt-4 md:pt-6 overflow-hidden">
           <DeviceMockup />
         </div>
-      </div>
 
-      {/* Global Register Modal */}
-      <RegisterModal open={openRegisterModal} onOpenChange={setOpenRegisterModal} />
+        <RegisterModal open={openRegisterModal} onOpenChange={setOpenRegisterModal} />
+      </div>
     </div>
   );
 }

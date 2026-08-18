@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Questrial, Redacted_Script, Instrument_Sans, Inter } from "next/font/google";
+import { Questrial, Redacted_Script, Instrument_Sans, Inter, Caveat } from "next/font/google";
 import "@/styles/globals.css";
 
 const questrial = Questrial({
@@ -30,6 +30,13 @@ const inter = Inter({
   display: "swap",
 });
 
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-caveat",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "AI-News — Get Latest AI News & Be Updated",
   description:
@@ -45,7 +52,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${questrial.variable} ${redactedScript.variable} ${instrumentSans.variable} ${inter.variable}`}
+      className={`${questrial.variable} ${redactedScript.variable} ${instrumentSans.variable} ${inter.variable} ${caveat.variable}`}
     >
       <body
         suppressHydrationWarning
