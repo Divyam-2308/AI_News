@@ -122,7 +122,7 @@ export default function Home() {
             {newsSources.map((source, idx) => (
               <div
                 key={idx}
-                className="h-10 flex items-center justify-center grayscale contrast-125 hover:grayscale-0 hover:scale-105 transition-all duration-200"
+                className="h-10 flex items-center justify-center hover:scale-105 transition-all duration-200"
                 title={source.name}
               >
                 <Image
