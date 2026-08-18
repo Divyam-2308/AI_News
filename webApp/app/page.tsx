@@ -46,8 +46,8 @@ export default function Home() {
           <Nav onOpenSubscribe={() => setOpenRegisterModal(true)} />
         </div>
 
-        {/* 2. Hero — compact flex section so phone sits below with proper gap at 100% zoom */}
-        <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 pt-1 sm:pt-2 shrink-0">
+        {/* 2. Hero — pushed down slightly for balanced top margin matching Home.png */}
+        <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 pt-5 sm:pt-10 md:pt-20 shrink-0">
           {/* Headline */}
           <h1 className="font-[family-name:var(--font-questrial)] font-normal text-[32px] sm:text-[44px] md:text-[54px] lg:text-[60px] text-white leading-[1.08] tracking-tight max-w-[850px] mx-auto">
             Get Latest AI News <br />
@@ -59,11 +59,11 @@ export default function Home() {
             Register and get latest news and blogs at your digital door step.
           </p>
 
-          {/* Email Pill matching Figma Register-Field specs (658x71, 000000 20% fill, FFFFFF 80% placeholder) */}
-          <div className="mt-3 sm:mt-4 md:mt-5 w-full max-w-[340px] sm:max-w-[500px] md:max-w-[620px]">
+          {/* Email Pill matching Figma Home.png sleek proportions */}
+          <div className="mt-3.5 sm:mt-4 md:mt-5 w-full max-w-[320px] sm:max-w-[440px] md:max-w-[500px]">
             <form
               onSubmit={handleQuickSubscribe}
-              className="w-full h-[48px] sm:h-[56px] md:h-[64px] bg-[#000000]/20 backdrop-blur-xl border border-white/20 rounded-[100px] px-3 sm:px-4 flex items-center justify-between shadow-2xl transition-transform duration-200 focus-within:scale-[1.01]"
+              className="w-full h-[46px] sm:h-[54px] md:h-[60px] bg-[#000000]/20 backdrop-blur-xl border border-white/20 rounded-[100px] px-2.5 sm:px-3.5 flex items-center justify-between shadow-xl transition-transform duration-200 focus-within:scale-[1.01]"
             >
               <input
                 type="email"
@@ -72,12 +72,12 @@ export default function Home() {
                 value={quickEmail}
                 onChange={(e) => setQuickEmail(e.target.value)}
                 disabled={quickStatus === "submitting"}
-                className="flex-1 bg-transparent border-none outline-none font-[family-name:var(--font-questrial)] text-[13px] sm:text-[16px] md:text-[18px] text-white placeholder:text-white/80 px-2 sm:px-4"
+                className="flex-1 bg-transparent border-none outline-none font-[family-name:var(--font-questrial)] text-[13px] sm:text-[15px] md:text-[17px] text-white placeholder:text-white/80 px-2 sm:px-3"
               />
               <button
                 type="submit"
                 disabled={quickStatus === "submitting"}
-                className="w-[94px] sm:w-[118px] md:w-[138px] h-[36px] sm:h-[44px] md:h-[50px] bg-white hover:bg-neutral-100 text-[#000000] font-[family-name:var(--font-questrial)] text-[13px] sm:text-[16px] md:text-[18px] font-normal rounded-[100px] flex items-center justify-center transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
+                className="w-[88px] sm:w-[110px] md:w-[126px] h-[34px] sm:h-[42px] md:h-[46px] bg-white hover:bg-neutral-100 text-[#000000] font-[family-name:var(--font-questrial)] text-[13px] sm:text-[15px] md:text-[17px] font-normal rounded-[100px] flex items-center justify-center transition-all shadow-md hover:shadow-lg active:scale-95 shrink-0"
               >
                 {quickStatus === "submitting" ? "..." : "Register"}
               </button>
