@@ -49,20 +49,41 @@ def _env_int(key: str, default: int) -> int:
 def _parse_service_account(raw: str) -> dict:
     """
     Parses the Firebase service account JSON from an env var.
-    Accepts the JSON directly, or a base64-encoded version.
+    Accepts raw JSON, JSON with escaped newlines, or a base64-encoded version.
+    Returns an empty dict if raw is missing/empty, allowing fail-soft behavior.
     """
+    if not raw or not raw.strip():
+        return {}
+
+    raw_str = raw.strip()
+
+    # Try 1: direct JSON
     try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        pass
-    try:
-        return json.loads(base64.b64decode(raw))
+        return json.loads(raw_str)
     except Exception:
-        raise EnvironmentError(
-            "FIREBASE_SERVICE_ACCOUNT must be valid JSON (or base64-encoded JSON) "
-            "containing a Firebase service account key. Download it from "
-            "Firebase console → Project settings → Service accounts → Generate new private key."
-        )
+        pass
+
+    # Try 2: replacement of escaped newlines in string (common in env vars)
+    try:
+        return json.loads(raw_str.replace("\\n", "\n"))
+    except Exception:
+        pass
+
+    # Try 3: base64-encoded JSON
+    try:
+        decoded = base64.b64decode(raw_str).decode("utf-8")
+        return json.loads(decoded)
+    except Exception:
+        pass
+
+    # Try 4: base64 with replaced escaped newlines
+    try:
+        decoded = base64.b64decode(raw_str).decode("utf-8").replace("\\n", "\n")
+        return json.loads(decoded)
+    except Exception:
+        pass
+
+    return {}
 
 
 # ── Settings ────────────────────────────────────────────────────────────
@@ -77,6 +98,7 @@ class Settings:
     RESEND_API_KEY: str = ""
     RESEND_FROM: str = "ByteDaily <onboarding@resend.dev>"
     RESEND_TEMPLATE_ID: str = ""
+    DEFAULT_RECIPIENTS: str = ""  # Comma-separated fallback email list if Firestore is empty/unavailable
 
     # Email (legacy SMTP — kept for reference, not used for sending)
     GMAIL_USER: str = ""
@@ -107,6 +129,7 @@ settings = Settings(
     RESEND_API_KEY                = _env("RESEND_API_KEY"),
     RESEND_FROM                   = _env("RESEND_FROM", "ByteDaily <onboarding@resend.dev>"),
     RESEND_TEMPLATE_ID            = _env("RESEND_TEMPLATE_ID"),
+    DEFAULT_RECIPIENTS            = _env("DEFAULT_RECIPIENTS"),
     GMAIL_USER                    = _env("GMAIL_USER"),
     GMAIL_APP_PASSWORD            = _env("GMAIL_APP_PASSWORD"),
     SMTP_HOST                     = _env("SMTP_HOST", "smtp.gmail.com"),

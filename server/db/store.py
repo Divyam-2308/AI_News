@@ -31,24 +31,35 @@ def _doc_id(url: str) -> str:
 
 def get_recipients() -> list[str]:
     """
-    Returns the subscriber email addresses from the Firestore `users`
-    collection (schema.json: users/<user> -> { name, email, timestamp }).
+    Returns subscriber email addresses from Firestore `users` collection,
+    falling back or appending DEFAULT_RECIPIENTS from environment config.
 
-    Fail-soft: returns an empty list if Firestore is unavailable, so the
-    pipeline still completes without crashing.
+    Fail-soft: if Firestore is unavailable, falls back to DEFAULT_RECIPIENTS so
+    the email digest can still be delivered.
 
     Returns:
-        List of non-empty, trimmed email addresses.
+        List of non-empty, trimmed, unique email addresses.
     """
+    from server.config import settings
+
     emails: list[str] = []
     try:
         docs = get_firestore().collection(USERS_COLLECTION).stream()
         for doc in docs:
             email = ((doc.to_dict() or {}).get("email") or "").strip()
-            if email:
+            if email and email not in emails:
                 emails.append(email)
     except Exception as e:
         logger.warning("Firestore users fetch failed: %s", e)
+
+    # Fallback / explicit recipients from environment configuration
+    fallback_raw = getattr(settings, "DEFAULT_RECIPIENTS", "")
+    if fallback_raw:
+        for addr in fallback_raw.split(","):
+            cleaned = addr.strip()
+            if cleaned and cleaned not in emails:
+                emails.append(cleaned)
+
     return emails
 
 
